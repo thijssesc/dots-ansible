@@ -1,0 +1,67 @@
+---
+- name: Set time zone.
+  ansible.builtin.file:
+    src: "/usr/share/zoneinfo/{{ region }}/{{ city }}"
+    dest: /etc/localtime
+    state: link
+
+- name: Set locale-gen localization.
+  ansible.builtin.lineinfile:
+    dest: /etc/locale.gen
+    regexp: "^{{ locale }}.UTF-8 UTF-8"
+    insertafter: "^#{{ locale }}.UTF-8 UTF-8"
+    line: "{{ locale }}.UTF-8 UTF-8"
+    state: present
+  notify: locale-gen
+
+- name: Set locale.conf localization.
+  ansible.builtin.lineinfile:
+    dest: /etc/locale.conf
+    regexp: "^LANG={{ locale }}.UTF-8"
+    line: "LANG={{ locale }}.UTF-8"
+    state: present
+
+- name: Set hostname.
+  ansible.builtin.lineinfile:
+    dest: /etc/hostname
+    regexp: "^{{ hostname }}"
+    line: "{{ hostname }}"
+    state: present
+  tags: [molecule-notest]
+
+- name: Ensure root password variable is set.
+  ansible.builtin.assert:
+    that: root_pass is defined and root_pass | length > 0
+
+- name: Root user.
+  ansible.builtin.user:
+    name: "{{ root_user }}"
+    password: "{{ root_pass | password_hash('sha512') }}"
+    state: present
+  tags: [molecule-notest]
+  no_log: true
+
+- name: Ensure system username and password variable is set.
+  ansible.builtin.assert:
+    that:
+      - system_user is defined and system_user | length > 0
+      - system_pass is defined and system_pass | length > 0
+
+- name: System user.
+  ansible.builtin.user:
+    name: "{{ system_user }}"
+    password: "{{ system_pass | password_hash('sha512') }}"
+    shell: /bin/zsh
+    groups: docker,libvirt,lp,users,wheel
+    state: present
+  tags: [molecule-notest]
+  no_log: true
+
+- name: System user ssh keys.
+  ansible.builtin.user:
+    name: "{{ system_user }}"
+    generate_ssh_key: true
+    ssh_key_bits: 2048
+    ssh_key_file: ".ssh/{{ item }}"
+  loop: "{{ system_installed_keys }}"
+  when: system_installed_keys | length > 0

@@ -1,0 +1,40 @@
+---
+- name: Set current tool.
+  ansible.builtin.set_fact:
+    suckless_tool: "{{ tool }}"
+
+- name: Clone the tool.
+  ansible.builtin.git:
+    dest: "{{ ansible_env.HOME }}/Software/suckless/{{ tool }}"
+    repo: "https://github.com/SCThijsse/{{ tool }}.git"
+    version: master
+    update: "{{ suckless_redo }}"
+    force: "{{ suckless_redo }}"
+  notify:
+    - find patches
+    - apply patches
+    - build tool
+
+- name: Ensure /usr/share/applications exists.
+  become: true
+  ansible.builtin.file:
+    path: /usr/share/applications
+    state: directory
+    mode: 0755
+  when: tool == 'sxiv'
+
+- name: Find & apply patches for the tool.
+  ansible.builtin.meta: flush_handlers
+
+- name: Get install path of the tool.
+  ansible.builtin.stat:
+    path: "/usr/local/bin/{{ tool }}"
+  register: result
+
+- name: Ensure the tool is installed.
+  ansible.builtin.assert:
+    that: result.stat.exists
+
+- name: Unset current tool.
+  ansible.builtin.set_fact:
+    suckless_tool:

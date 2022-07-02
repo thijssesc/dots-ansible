@@ -1,0 +1,37 @@
+---
+- name: build eclipse.jdt.ls
+  ansible.builtin.command:
+    cmd: ./mvnw clean verify -DskipTests
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  args:
+    chdir: "{{ ansible_env.HOME }}/Software/eclipse.jdt.ls"
+
+- name: build java-debug
+  ansible.builtin.command:
+    cmd: ./mvnw clean verify
+    creates: "{{ ansible_env.HOME }}/Software/java-debug/com.microsoft.java.debug.plugin/target"
+  environment:
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  args:
+    chdir: "{{ ansible_env.HOME }}/Software/java-debug"
+
+- name: install nodejs dependencies for vscode-java-test
+  ansible.builtin.command:
+    cmd: npm install
+    creates: "{{ ansible_env.HOME }}/Software/vscode-java-test/node_modules"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  args:
+    chdir: "{{ ansible_env.HOME }}/Software/vscode-java-test/java-extension"
+
+- name: build vscode-java-test
+  ansible.builtin.command:
+    cmd: npm run build-plugin
+    creates: "{{ ansible_env.HOME }}/Software/vscode-java-test/server"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+    JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  args:
+    chdir: "{{ ansible_env.HOME }}/Software/vscode-java-test/java-extension"

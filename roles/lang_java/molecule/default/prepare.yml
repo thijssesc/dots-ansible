@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+
+  vars:
+    npm_packages: yarn
+
+  roles:
+    - role: git
+    - role: lang_javascript

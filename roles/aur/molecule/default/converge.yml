@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+
+  vars:
+    aur_installed_packages:
+      - shellcheck-bin
+
+  roles:
+    - role: aur

@@ -1,0 +1,29 @@
+---
+- name: Archey via Ansible
+  hosts: localhost
+  connection: local
+
+  roles:
+    - role: system
+      tags: [never, system]
+      become: true
+    - role: dots
+      tags: [never, dots]
+    - role: pacman
+      tags: [pacman]
+    - role: aur
+      tags: [aur]
+    - role: lang_java
+      tags: [java]
+    - role: lang_javascript
+      tags: [javascript]
+    - role: lang_k8s
+      tags: [k8s]
+    - role: lang_lua
+      tags: [lua]
+    - role: neovim
+      tags: [neovim]
+    - role: suckless
+      tags: [suckless]
+    - role: tmux
+      tags: [tmux]

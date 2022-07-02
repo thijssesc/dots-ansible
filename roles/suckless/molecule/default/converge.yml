@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    suckless_installed_tools:
+      - dmenu
+
+  roles:
+    - role: suckless

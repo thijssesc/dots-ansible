@@ -1,0 +1,8 @@
+---
+- name: uninstall dependencies
+  become: true
+  ansible.builtin.package:
+    name:
+      - tar
+      - unzip
+    state: absent

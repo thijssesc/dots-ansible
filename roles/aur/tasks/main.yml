@@ -1,0 +1,54 @@
+---
+- name: Create the 'aur_builder' user.
+  become: true
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: true
+    group: wheel
+
+- name: Allow the 'aur_builder' user to run 'sudo pacman' without a password.
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur_builder
+    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: true
+    validate: 'visudo -cf %s'
+    mode: 0750
+
+- name: Update cache.
+  ansible.builtin.pacman:
+    update_cache: true
+
+- name: Install yay.
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name: yay
+    state: present
+    use: makepkg
+
+- name: Install aur packages.
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name: "{{ aur_installed_packages }}"
+    state: present
+    use: yay
+  when: aur_installed_packages | length > 0
+
+- name: Uninstall aur packages.
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name: "{{ aur_uninstalled_packages }}"
+    state: absent
+    use: yay
+  when: aur_uninstalled_packages | length > 0
+
+- name: Enable touchegg service.
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    state: started
+    name: touchegg
+  when: ('touchegg' in aur_installed_packages)

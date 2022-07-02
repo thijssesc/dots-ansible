@@ -1,0 +1,6 @@
+---
+npm_installed_packages: "{{ lookup('file', '~/.config/pkglist/npm-laptop.lst') }}"
+npm_uninstalled_packages: []
+
+nvm_version: 0.39.1
+node_version: 18.0.0

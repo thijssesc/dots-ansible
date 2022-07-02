@@ -1,0 +1,32 @@
+---
+- name: Install neovim build dependencies.
+  become: true
+  ansible.builtin.package:
+    name: "{{ neovim_dependencies }}"
+    state: present
+  notify:
+    - uninstall dependencies
+
+- name: Clone neovim.
+  ansible.builtin.git:
+    dest: "{{ ansible_env.HOME }}/Software/neovim"
+    repo: "https://github.com/neovim/neovim.git"
+    version: master
+    force: true
+  register: neovim
+  changed_when: neovim.changed or neovim_force
+  notify:
+    - build neovim
+    - install neovim plugins
+
+- name: Flush handlers.
+  ansible.builtin.meta: flush_handlers
+
+- name: Get install path of neovim.
+  ansible.builtin.stat:
+    path: /usr/local/bin/nvim
+  register: result
+
+- name: Ensure neovim is installed.
+  ansible.builtin.assert:
+    that: result.stat.exists

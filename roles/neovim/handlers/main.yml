@@ -1,0 +1,19 @@
+---
+- name: build neovim
+  become: true
+  ansible.builtin.make:
+    chdir: "{{ ansible_env.HOME }}/Software/neovim"
+    target: install
+
+- name: install neovim plugins
+  ansible.builtin.command: |
+    nvim --headless \
+        -c 'autocmd User PackerComplete quitall' \
+        -c 'PackerSync' \
+        -u "{{ ansible_env.HOME }}/.config/nvim/lua/thijssesc/packer.lua"
+
+- name: uninstall dependencies
+  become: true
+  ansible.builtin.package:
+    name: "{{ neovim_dependencies }}"
+    state: absent

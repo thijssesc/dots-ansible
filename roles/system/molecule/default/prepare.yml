@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  roles:
+    - role: pacman
+      vars:
+        pacman_installed_packages: [openssh, zsh]

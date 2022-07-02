@@ -1,0 +1,53 @@
+---
+- name: Install nvm build dependencies.
+  become: true
+  ansible.builtin.package:
+    name: bash
+    state: present
+
+- name: Find nvm script.
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.config/nvm/nvm.sh"
+  register: result
+
+- name: Download nvm install script.
+  ansible.builtin.get_url:
+    dest: "{{ ansible_env.HOME }}/nvm_install.sh"
+    url: "https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh"
+    mode: 0755
+  when: not result.stat.exists
+
+- name: Install nvm, npm & node.
+  ansible.builtin.command:
+    cmd: "/usr/bin/env bash {{ ansible_env.HOME }}/nvm_install.sh"
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.config/nvm/nvm.sh"
+  environment:
+    NODE_VERSION: "{{ node_version }}"
+    XDG_CONFIG_HOME: "{{ ansible_env.HOME }}/.config"
+
+- name: Remove nvm install script.
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/nvm_install.sh"
+    state: absent
+
+- name: Install npm packages.
+  ansible.builtin.npm:
+    name: "{{ npm_installed_packages }}"
+    state: present
+    production: true
+    global: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+  when: npm_installed_packages | length > 0
+  changed_when: false
+
+- name: Uninstall npm packages.
+  ansible.builtin.npm:
+    name: "{{ npm_uninstalled_packages }}"
+    state: absent
+    production: true
+    global: true
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+  when: npm_uninstalled_packages | length > 0

@@ -1,0 +1,15 @@
+---
+- name: get mirrorlist
+  become: true
+  ansible.builtin.get_url:
+    dest: /etc/pacman.d/mirrorlist
+    url: https://archlinux.org/mirrorlist/?country=NL&protocol=https&ip_version=4
+    mode: 0644
+    owner: root
+    group: root
+
+- name: update cache
+  become: true
+  ansible.builtin.pacman:
+    update_cache: true
+  tags: [molecule-notest]

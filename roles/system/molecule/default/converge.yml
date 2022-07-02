@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+
+  vars:
+    root_user: root
+    root_pass: toor
+    system_user: user
+    system_pass: resu
+    system_installed_keys:
+      - work
+      - rsa
+
+  roles:
+    - role: system

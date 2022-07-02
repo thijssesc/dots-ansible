@@ -1,0 +1,20 @@
+---
+suckless_redo: false
+suckless_installed_tools:
+    - dmenu
+    - dwm
+    - dwmblocks
+    - slock
+    - slstatus
+    - st
+    - sxiv
+    - tabbed
+suckless_uninstalled_tools: []
+
+suckless_dependencies:
+    - imlib2
+    - libexif
+    - libx11
+    - libxft
+    - libxinerama
+    - libxrandr

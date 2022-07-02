@@ -1,0 +1,21 @@
+---
+- name: Install suckless build dependencies.
+  become: true
+  ansible.builtin.package:
+    name: "{{ suckless_dependencies }}"
+    state: present
+
+- name: Install tools.
+  ansible.builtin.include_tasks:
+    file: tools.yml
+  loop: "{{ suckless_installed_tools }}"
+  loop_control:
+    loop_var: tool
+  when: suckless_installed_tools | length > 0
+
+- name: Uninstall tools.
+  ansible.builtin.file:
+    path: /usr/local/bin/{{ item }}
+    state: absent
+  loop: "{{ suckless_uninstalled_tools }}"
+  when: suckless_uninstalled_tools | length > 0

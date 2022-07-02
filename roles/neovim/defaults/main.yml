@@ -1,0 +1,10 @@
+---
+neovim_force: false
+
+neovim_dependencies:
+  - cmake
+  - curl
+  - gcc
+  - ninja
+  - tree-sitter
+  - unzip

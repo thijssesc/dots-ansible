@@ -1,0 +1,46 @@
+---
+- name: Install java11.
+  become: true
+  ansible.builtin.package:
+    name: jdk11-openjdk
+    state: present
+
+- name: Clone eclipse.jdt.ls.
+  ansible.builtin.git:
+    repo: https://github.com/eclipse/eclipse.jdt.ls
+    dest: "{{ ansible_env.HOME }}/Software/eclipse.jdt.ls"
+    version: master
+    force: true
+  register: eclipse
+  changed_when: eclipse.changed or lang_java_force
+  notify:
+    - build eclipse.jdt.ls
+
+- name: Clone java-debug.
+  ansible.builtin.git:
+    repo: https://github.com/microsoft/java-debug
+    dest: "{{ ansible_env.HOME }}/Software/java-debug"
+    version: main
+    force: true
+  register: debug
+  changed_when: debug.changed or lang_java_force
+  notify:
+    - build java-debug
+
+- name: Clone vscode-java-test.
+  ansible.builtin.git:
+    repo: https://github.com/microsoft/vscode-java-test
+    dest: "{{ ansible_env.HOME }}/Software/vscode-java-test"
+    version: main
+    force: true
+  register: test
+  changed_when: test.changed or lang_java_force
+  notify:
+    - install nodejs dependencies for vscode-java-test
+    - build vscode-java-test
+
+- name: Clone vscode-java-decompiler.
+  ansible.builtin.git:
+    repo: https://github.com/dgileadi/vscode-java-decompiler
+    dest: "{{ ansible_env.HOME }}/Software/vscode-java-decompiler"
+    version: master

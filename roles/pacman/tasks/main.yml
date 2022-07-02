@@ -1,0 +1,89 @@
+---
+- name: Get current mirrorlist.
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.d/mirrorlist
+    line: '## Netherlands'
+    state: present
+  notify: get mirrorlist
+
+- name: Ensure mirrorlist is updated.
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable mirrorlist.
+  become: true
+  ansible.builtin.replace:
+    path: /etc/pacman.d/mirrorlist
+    regexp: '^#Server ='
+    replace: 'Server ='
+  notify: update cache
+
+- name: Enable multilib repository.
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: '^\\[multilib\\]'
+    insertafter: '^#\\[multilib\\]'
+    line: '[multilib]'
+    state: present
+  tags: [molecule-notest]
+  notify: update cache
+
+- name: Enable multilib repository (cont).
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: '^Include = /etc/pacman.d/mirrorlist'
+    insertafter: '^\\[multilib\\]'
+    line: 'Include = /etc/pacman.d/mirrorlist'
+    state: present
+  tags: [molecule-notest]
+  notify: update cache
+
+- name: Enable ilovecandy setting.
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: '^ILoveCandy'
+    insertafter: '^NoProgressBar'
+    line: 'ILoveCandy'
+    state: present
+
+- name: Ensure cache is updated.
+  ansible.builtin.meta: flush_handlers
+
+- name: Install virtualbox-host-modules-arch packages.
+  become: true
+  ansible.builtin.pacman:
+    name: virtualbox-host-modules-arch
+    extra_args: "--needed --noconfirm"
+    state: present
+  when: ('virtualbox-host-modules-arch' in pacman_installed_packages)
+
+- name: Install pacman packages.
+  become: true
+  ansible.builtin.pacman:
+    name: "{{ pacman_installed_packages }}"
+    extra_args: "--needed --noconfirm"
+    state: present
+  when: pacman_installed_packages | length > 0
+
+- name: Uninstall pacman packages.
+  become: true
+  ansible.builtin.pacman:
+    name: "{{ pacman_uninstalled_packages }}"
+    state: absent
+  when: pacman_uninstalled_packages | length > 0
+
+- name: Enable services.
+  become: true
+  ansible.builtin.service:
+    enabled: true
+    state: started
+    name: "{{ item }}"
+  when: item in pacman_installed_packages
+  tags: [molecule-notest]
+  loop:
+    - docker
+    - iwd
+    - bluetooth

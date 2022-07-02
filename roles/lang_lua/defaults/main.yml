@@ -1,0 +1,34 @@
+---
+lang_lua_force: false
+
+lua_language_server_version: 2.6.5
+selene_version: 0.17.0
+shellcheck_version: 0.8.0
+stylua_version: 0.13.1
+
+tools:
+  - name: lua-language-server
+    version: "{{ lua_language_server_version }}"
+    dest: "{{ ansible_env.HOME + '/.local' }}"
+    repo_url: https://github.com/sumneko/lua-language-server
+    download_url: "/releases/download\
+      /{{ lua_language_server_version }}/lua-language-server-{{ lua_language_server_version }}-linux-x64.tar.gz"
+  - name: selene
+    version: "{{ selene_version }}"
+    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
+    repo_url: https://github.com/Kampfkarren/selene
+    download_url: "/releases/download\
+      /{{ selene_version }}/selene-{{ selene_version }}-linux.zip"
+  - name: shellcheck
+    version: "{{ shellcheck_version }}"
+    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
+    repo_url: https://github.com/koalaman/shellcheck
+    download_url: "/releases/download\
+      /v{{ shellcheck_version }}/shellcheck-v{{ shellcheck_version }}.linux.x86_64.tar.xz"
+    extra_opts: [--strip-components=1, "shellcheck-v{{ shellcheck_version }}/shellcheck"]
+  - name: stylua
+    version: "{{ stylua_version }}"
+    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
+    repo_url: https://github.com/JohnnyMorganz/StyLua
+    download_url: "/releases/download\
+      /v{{ stylua_version }}/stylua-linux.zip"

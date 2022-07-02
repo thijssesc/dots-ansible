@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    npm_installed_packages: yarn
+
+  roles:
+    - role: lang_javascript

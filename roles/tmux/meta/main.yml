@@ -1,0 +1,13 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: scthijsse
+  description: Personal tmux and configuration installer.
+  license: "MIT"
+  min_ansible_version: "2.4"
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+  galaxy_tags: []

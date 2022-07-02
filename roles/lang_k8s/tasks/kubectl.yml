@@ -1,0 +1,54 @@
+---
+- name: Check if kubectl binary exists.
+  ansible.builtin.stat:
+    path: "{{ kubectl_bin_path }}"
+  register: kubectl_check
+
+- name: Check kubectl version.
+  ansible.builtin.command: "{{ kubectl_bin_path }} version"
+  failed_when: false
+  changed_when: false
+  register: kubectl_existing_version
+
+- name: Install kubectl.
+  when: >
+    not kubectl_check.stat.exists
+    or kubectl_version not in kubectl_existing_version.stdout
+  block:
+    - name: Get kubectl binary.
+      ansible.builtin.get_url:
+        url: "{{ kubectl_repo_path }}/{{ kubectl_version }}/bin/{{ kubectl_platform }}/{{ kubectl_arch }}/kubectl"
+        dest: /tmp
+        mode: 0700
+      register: kubectl_binary
+
+    - name: Set sha256 checksum url of latest stable version.
+      ansible.builtin.set_fact:
+        # yamllint disable-line rule:line-length
+        kubectl_checksum_url: "{{ kubectl_repo_path }}/{{ kubectl_version }}/bin/{{ kubectl_platform }}/{{ kubectl_arch }}/kubectl.sha256"
+
+    - name: Get sha256 checksum of latest stable version.
+      ansible.builtin.set_fact:
+        kubectl_checksum: "{{ lookup('url', kubectl_checksum_url, split_lines=False) | trim | split(' ') | first }}"
+
+    - name: Get checksum of downloaded kubectl binary.
+      ansible.builtin.stat:
+        path: "{{ kubectl_binary.dest }}"
+        checksum_algorithm: sha256
+        get_checksum: true
+      register: result
+
+    - name: Validate kubectl binary checksum.
+      ansible.builtin.assert:
+        that:
+          - kubectl_checksum == result.stat.checksum
+
+    - name: Install kubectl.
+      become: true
+      ansible.builtin.copy:
+        src: "{{ kubectl_binary.dest }}"
+        dest: /usr/local/bin/kubectl
+        remote_src: true
+        mode: 0755
+        owner: root
+        group: root

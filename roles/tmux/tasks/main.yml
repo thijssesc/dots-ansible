@@ -1,0 +1,20 @@
+---
+- name: Install dependencies.
+  ansible.builtin.package:
+    name: tmux
+    state: present
+
+- name: Clone .tmux.
+  ansible.builtin.git:
+    dest: "~/.config/tmux"
+    repo: "https://github.com/SCThijsse/.tmux.git"
+    version: master
+
+- name: Create symlinks.
+  ansible.builtin.file:
+    src: "~/.config/tmux/{{ item }}"
+    dest: "~/{{ item }}"
+    state: link
+  loop:
+    - .tmux.conf
+    - .tmux.conf.local

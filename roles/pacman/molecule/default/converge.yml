@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+
+  vars:
+    pacman_installed_packages:
+      - docker
+
+  roles:
+    - role: pacman

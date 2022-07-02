@@ -1,0 +1,61 @@
+---
+- name: Check if Helm binary exists.
+  ansible.builtin.stat:
+    path: "{{ helm_bin_path }}"
+  register: helm_check
+
+- name: Check Helm version.
+  ansible.builtin.command: "{{ helm_bin_path }} version"
+  failed_when: false
+  changed_when: false
+  register: helm_existing_version
+
+- name: Install Helm.
+  when: >
+    not helm_check.stat.exists
+    or helm_version not in helm_existing_version.stdout
+  block:
+    - name: Get helm tar.
+      ansible.builtin.get_url:
+        url: "{{ helm_repo_path }}/helm-{{ helm_version }}-{{ helm_platform }}-{{ helm_arch }}.tar.gz"
+        dest: /tmp
+        mode: 0755
+      register: helm_tar
+
+    - name: Set sha256 checksum url.
+      ansible.builtin.set_fact:
+        # yamllint disable-line rule:line-length
+        helm_checksum_url: "{{ helm_repo_path }}/helm-{{ helm_version }}-{{ helm_platform }}-{{ helm_arch }}.tar.gz.sha256sum"
+
+    - name: Get sha256 checksum.
+      ansible.builtin.set_fact:
+        helm_checksum: "{{ lookup('url', helm_checksum_url, split_lines=False) | trim | split(' ') | first }}"
+
+    - name: Get checksum of downloaded helm binary.
+      ansible.builtin.stat:
+        path: "{{ helm_tar.dest }}"
+        checksum_algorithm: sha256
+        get_checksum: true
+      register: result
+
+    - name: Validate helm tar checksum.
+      ansible.builtin.assert:
+        that:
+          - helm_checksum.split(' ') | first == result.stat.checksum
+
+    - name: Unarchive helm.
+      ansible.builtin.unarchive:
+        src: "{{ helm_tar.dest }}"
+        dest: /tmp
+        remote_src: true
+        mode: 0755
+
+    - name: Install helm.
+      become: true
+      ansible.builtin.copy:
+        src: "/tmp/{{ helm_platform }}-{{ helm_arch }}/helm"
+        dest: "{{ helm_bin_path }}"
+        remote_src: true
+        mode: 0755
+        owner: root
+        group: root

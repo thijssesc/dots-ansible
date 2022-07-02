@@ -1,0 +1,23 @@
+---
+- name: find patches
+  ansible.builtin.find:
+    paths: "{{ ansible_env.HOME }}/Software/suckless/{{ suckless_tool }}/patches"
+  register: patches
+
+- name: apply patches
+  ansible.posix.patch:
+    basedir: "{{ ansible_env.HOME }}/Software/suckless/{{ suckless_tool }}"
+    src: "{{ item }}"
+    remote_src: true
+    strip: 1
+    state: present
+  loop: "{{ patches.files | map(attribute='path') | sort }}"
+
+- name: build tool
+  become: true
+  ansible.builtin.make:
+    chdir: "{{ ansible_env.HOME }}/Software/suckless/{{ suckless_tool }}"
+    target: "{{ item }}"
+  loop:
+    - clean
+    - install
