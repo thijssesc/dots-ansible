@@ -16,6 +16,7 @@
     mode: 0750
 
 - name: Update cache.
+  become: true
   ansible.builtin.pacman:
     update_cache: true
 

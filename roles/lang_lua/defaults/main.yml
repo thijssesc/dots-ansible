@@ -1,8 +1,8 @@
 ---
 lang_lua_force: false
 
-lua_language_server_version: 2.6.5
-selene_version: 0.17.0
+lua_language_server_version: 3.4.0
+selene_version: 0.19.1
 shellcheck_version: 0.8.0
 stylua_version: 0.13.1
 

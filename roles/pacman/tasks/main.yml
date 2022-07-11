@@ -85,5 +85,5 @@
   tags: [molecule-notest]
   loop:
     - docker
-    - iwd
+    # - iwd
     - bluetooth

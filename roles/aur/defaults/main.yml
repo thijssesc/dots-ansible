@@ -1,3 +1,4 @@
 ---
-aur_installed_packages: "{{ lookup('file', '~/.config/pkglist/yay-laptop.lst').splitlines() | list }}"
+aur_top_type: laptop
+aur_installed_packages: "{{ lookup('file', '~/.config/pkglist/yay-' + aur_top_type + '.lst').splitlines() | list }}"
 aur_uninstalled_packages: []

@@ -1,0 +1,5 @@
+---
+top_type: laptop
+aur_top_type: "{{ top_type }}"
+pacman_top_type: "{{ top_type }}"
+npm_top_type: "{{ top_type }}"

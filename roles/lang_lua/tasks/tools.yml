@@ -14,7 +14,7 @@
 
 - name: "Unarchive {{ tool.name }}."
   ansible.builtin.unarchive:
-    src: "{{ ansible_env.HOME + '/' + tool.name }}.zip."
+    src: "{{ ansible_env.HOME + '/' + tool.name }}.zip"
     dest: "{{ tool.dest }}"
     remote_src: true
     creates: "{{ ansible_env.HOME + '/.local/bin/' + tool.name }}"

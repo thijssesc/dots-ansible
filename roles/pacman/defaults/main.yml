@@ -1,3 +1,4 @@
 ---
-pacman_installed_packages: "{{ lookup('file', '~/.config/pkglist/pacman-laptop.lst').splitlines() | list }}"
+pacman_top_type: laptop
+pacman_installed_packages: "{{ lookup('file', '~/.config/pkglist/pacman-' + pacman_top_type + '.lst').splitlines() | list }}"
 pacman_uninstalled_packages: []
