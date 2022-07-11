@@ -1,9 +1,10 @@
 ---
 - name: Install java11.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: jdk11-openjdk
     state: present
+    update_cache: true
 
 - name: Clone eclipse.jdt.ls.
   ansible.builtin.git:

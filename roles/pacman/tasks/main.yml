@@ -83,7 +83,4 @@
     name: "{{ item }}"
   when: item in pacman_installed_packages
   tags: [molecule-notest]
-  loop:
-    - docker
-    # - iwd
-    - bluetooth
+  loop: "{{ pacman_services }}"

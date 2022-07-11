@@ -1,6 +1,7 @@
 ---
 - name: Install git.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: git
     state: present
+    update_cache: true

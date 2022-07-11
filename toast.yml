@@ -106,6 +106,15 @@ tasks:
     command: cd roles/lang_javascript && molecule test
     cache: false
 
+  go:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles/lang_go
+      - /var/run/docker.sock
+    command: cd roles/lang_go && molecule test
+    cache: false
+
   k8s:
     dependencies:
       - fetch_dependencies
@@ -122,6 +131,15 @@ tasks:
       - roles/lang_lua
       - /var/run/docker.sock
     command: cd roles/lang_lua && molecule test
+    cache: false
+
+  python:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles/lang_python
+      - /var/run/docker.sock
+    command: cd roles/lang_python && molecule test
     cache: false
 
   neovim:

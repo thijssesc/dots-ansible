@@ -1,9 +1,10 @@
 ---
 - name: Install suckless build dependencies.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: "{{ suckless_dependencies }}"
     state: present
+    update_cache: true
 
 - name: Install tools.
   ansible.builtin.include_tasks:

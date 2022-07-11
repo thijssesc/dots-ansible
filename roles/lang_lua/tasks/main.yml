@@ -1,13 +1,14 @@
 ---
 - name: Install tar & unzip.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name:
       - tar
       - unzip
     state: present
+    update_cache: true
   notify:
-    - uninstall dependencies
+    - uninstall lua dependencies
 
 - name: "Ensure {{ ansible_env.HOME }}/.local/bin exists."
   ansible.builtin.file:

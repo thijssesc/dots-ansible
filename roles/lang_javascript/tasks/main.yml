@@ -1,9 +1,10 @@
 ---
 - name: Install nvm build dependencies.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: bash
     state: present
+    update_cache: true
 
 - name: Find nvm script.
   ansible.builtin.stat:

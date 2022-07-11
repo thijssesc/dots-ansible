@@ -1,0 +1,43 @@
+---
+- name: Install go & gopls.
+  become: true
+  ansible.builtin.pacman:
+    name:
+      - go
+      - gopls
+    state: present
+    update_cache: true
+
+- name: Get GOPATH.
+  ansible.builtin.command:
+    cmd: go env GOPATH
+  failed_when: false
+  changed_when: false
+  register: gopath
+
+- name: Check if golangci-lint exists.
+  ansible.builtin.stat:
+    path: "{{ gopath.stdout }}/bin/golangci-lint"
+  register: golangcilint_check
+
+- name: Check golangci-lint version.
+  ansible.builtin.command: "{{ gopath.stdout }}/bin/golangci-lint version"
+  failed_when: false
+  changed_when: false
+  register: golangcilint_existing_version
+
+- name: Install golangci-lint.
+  when: >
+    not golangcilint_check.stat.exists
+    or golangcilint_version not in golangcilint_existing_version.stdout
+  block:
+    - name: Get golangci-lint install script.
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh
+        dest: /tmp/golangci-lint_install.sh
+        mode: 0755
+
+    - name: Install golangci-lint.
+      ansible.builtin.command:
+        cmd: "/tmp/golangci-lint_install.sh -b {{ gopath.stdout }}/bin v{{ golangcilint_version }}"
+        creates: "{{ gopath.stdout }}/bin/golangci_lint"

@@ -1,11 +1,12 @@
 ---
 - name: Install neovim build dependencies.
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: "{{ neovim_dependencies }}"
     state: present
+    update_cache: true
   notify:
-    - uninstall dependencies
+    - uninstall neovim dependencies
 
 - name: Clone neovim.
   ansible.builtin.git:

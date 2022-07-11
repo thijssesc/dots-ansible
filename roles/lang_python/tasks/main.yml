@@ -1,0 +1,20 @@
+---
+- name: Install python.
+  ansible.builtin.pacman:
+    name: python
+    state: present
+    update_cache: true
+
+- name: Install pip.
+  ansible.builtin.command:
+    cmd: python -m ensurepip --upgrade
+  tags: [molecule-idempotence-notest]
+
+- name: Install pip modules.
+  ansible.builtin.pip:
+    name:
+      - ansible
+      - ansible-lint
+      - molecule[docker]
+      - yamllint
+    state: latest

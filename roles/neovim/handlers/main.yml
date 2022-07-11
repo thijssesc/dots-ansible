@@ -12,8 +12,8 @@
         -c 'PackerSync' \
         -u "{{ ansible_env.HOME }}/.config/nvim/lua/thijssesc/packer.lua"
 
-- name: uninstall dependencies
+- name: uninstall neovim dependencies
   become: true
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: "{{ neovim_dependencies }}"
     state: absent

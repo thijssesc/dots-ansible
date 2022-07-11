@@ -1,8 +1,9 @@
 ---
 - name: Install dependencies.
-  ansible.builtin.package:
+  ansible.builtin.pacman:
     name: tmux
     state: present
+    update_cache: true
 
 - name: Clone .tmux.
   ansible.builtin.git:
