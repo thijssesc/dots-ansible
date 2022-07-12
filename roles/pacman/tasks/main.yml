@@ -56,7 +56,6 @@
   become: true
   ansible.builtin.pacman:
     name: virtualbox-host-modules-arch
-    extra_args: "--needed --noconfirm"
     state: present
   when: ('virtualbox-host-modules-arch' in pacman_installed_packages)
 
@@ -64,7 +63,6 @@
   become: true
   ansible.builtin.pacman:
     name: "{{ pacman_installed_packages }}"
-    extra_args: "--needed --noconfirm"
     state: present
   when: pacman_installed_packages | length > 0
 

@@ -13,6 +13,8 @@
       tags: [pacman]
     - role: aur
       tags: [aur]
+    - role: lang_go
+      tags: [go]
     - role: lang_java
       tags: [java]
     - role: lang_javascript
@@ -21,9 +23,9 @@
       tags: [k8s]
     - role: lang_lua
       tags: [lua]
+    - role: lang_python
+      tags: [python]
     - role: neovim
       tags: [neovim]
     - role: suckless
       tags: [suckless]
-    - role: tmux
-      tags: [tmux]

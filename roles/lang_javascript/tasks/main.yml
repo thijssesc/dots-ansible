@@ -34,7 +34,7 @@
 
 - name: Install npm packages.
   ansible.builtin.npm:
-    name: "{{ npm_installed_packages }}"
+    name: "{{ item }}"
     state: present
     production: true
     global: true
@@ -42,6 +42,7 @@
     PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
   when: npm_installed_packages | length > 0
   changed_when: false
+  loop: "{{ npm_installed_packages }}"
 
 - name: Uninstall npm packages.
   ansible.builtin.npm:

@@ -1,5 +1,6 @@
 ---
 - name: Install python.
+  become: true
   ansible.builtin.pacman:
     name: python
     state: present
@@ -8,13 +9,10 @@
 - name: Install pip.
   ansible.builtin.command:
     cmd: python -m ensurepip --upgrade
-  tags: [molecule-idempotence-notest]
+    creates: /usr/bin/pip
 
-- name: Install pip modules.
-  ansible.builtin.pip:
-    name:
-      - ansible
-      - ansible-lint
-      - molecule[docker]
-      - yamllint
-    state: latest
+- name: Check pip version.
+  ansible.builtin.command: "/usr/bin/pip --version"
+  failed_when: false
+  changed_when: false
+  register: pip_existing_version

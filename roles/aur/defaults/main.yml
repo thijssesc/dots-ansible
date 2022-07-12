@@ -1,4 +1,12 @@
 ---
-aur_top_type: laptop
-aur_installed_packages: "{{ lookup('file', '~/.config/pkglist/yay-' + aur_top_type + '.lst').splitlines() | list }}"
+aur_installed_packages:
+  - catppuccin-gtk-theme
+  - google-chrome
+  - htop-vim
+  - intellij-idea-ultimate-edition
+  - intellij-idea-ultimate-edition-jre
+  - nerd-fonts-roboto-mono
+  - slack-desktop
+  - touchegg
+  - yay
 aur_uninstalled_packages: []

@@ -58,14 +58,14 @@ tasks:
       - roles
     command: |
       yamllint .
-      ansible-lint *.yml --exclude toast.yml -q
+      ansible-lint
     cache: false
 
   aur:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/aur
+      - roles
       - /var/run/docker.sock
     command: cd roles/aur && molecule test
     cache: false
@@ -74,7 +74,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/dots
+      - roles
       - /var/run/docker.sock
     command: cd roles/dots && molecule test
     cache: false
@@ -83,7 +83,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/git
+      - roles
       - /var/run/docker.sock
     command: cd roles/git && molecule test
     cache: false
@@ -92,7 +92,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_java
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_java && molecule test
     cache: false
@@ -101,7 +101,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_javascript
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_javascript && molecule test
     cache: false
@@ -110,7 +110,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_go
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_go && molecule test
     cache: false
@@ -119,7 +119,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_k8s
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_k8s && molecule test
     cache: false
@@ -128,7 +128,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_lua
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_lua && molecule test
     cache: false
@@ -137,7 +137,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/lang_python
+      - roles
       - /var/run/docker.sock
     command: cd roles/lang_python && molecule test
     cache: false
@@ -146,7 +146,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/neovim
+      - roles
       - /var/run/docker.sock
     command: cd roles/neovim && molecule test
     cache: false
@@ -155,7 +155,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/pacman
+      - roles
       - /var/run/docker.sock
     command: cd roles/pacman && molecule test
     cache: false
@@ -164,7 +164,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/suckless
+      - roles
       - /var/run/docker.sock
     command: cd roles/suckless && molecule test
     cache: false
@@ -173,16 +173,7 @@ tasks:
     dependencies:
       - fetch_dependencies
     mount_paths:
-      - roles/system
+      - roles
       - /var/run/docker.sock
     command: cd roles/system && molecule test
-    cache: false
-
-  tmux:
-    dependencies:
-      - fetch_dependencies
-    mount_paths:
-      - roles/tmux
-      - /var/run/docker.sock
-    command: cd roles/tmux && molecule test
     cache: false

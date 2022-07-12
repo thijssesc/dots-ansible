@@ -3,7 +3,6 @@
   become: true
   ansible.builtin.pacman:
     name:
-      - tar
       - unzip
     state: absent
     update_cache: true

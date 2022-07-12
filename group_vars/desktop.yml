@@ -1,9 +1,82 @@
 ---
-top_type: desktop
-aur_top_type: "{{ top_type }}"
-pacman_top_type: "{{ top_type }}"
-npm_top_type: "{{ top_type }}"
+aur_installed_packages:
+  - catppuccin-gtk-theme
+  - google-chrome
+  - htop-vim
+  - intellij-idea-ultimate-edition
+  - intellij-idea-ultimate-edition-jre
+  - nerd-fonts-roboto-mono
+  - slack-desktop
+  - touchegg
+  - yay
 
+pacman_installed_packages:
+  - alsa-utils
+  - autoconf
+  - automake
+  - base
+  - bc
+  - binutils
+  - bison
+  - bluez-utils
+  - checkbashisms
+  - dash
+  - dhcpcd
+  - docker
+  - docker-compose
+  - dunst
+  - dzen2
+  - fakeroot
+  - feh
+  - file
+  - firefox-developer-edition
+  - gcc
+  - git
+  - go
+  - gopls
+  - groff
+  - grub
+  - gtk-engine-murrine
+  - linux
+  - linux-firmware
+  - linux-headers
+  - m4
+  - make
+  - man-db
+  - man-pages
+  - mdadm
+  - mediainfo
+  - mpv
+  - nnn
+  - openssh
+  - otf-font-awesome
+  - pass
+  - patch
+  - pkgconf
+  - pulseaudio-alsa
+  - pulseaudio-bluetooth
+  - ripgrep
+  - scrot
+  - sxhkd
+  - sysstat
+  - texinfo
+  - tmux
+  - ttf-dejavu
+  - ttf-roboto
+  - ttf-roboto-mono
+  - unclutter
+  - which
+  - xautolock
+  - xclip
+  - xf86-video-amdgpu
+  - xf86-video-intel
+  - xorg-server
+  - xorg-xinit
+  - xorg-xprop
+  - xorg-xrandr
+  - zathura
+  - zathura-pdf-mupdf
+  - zsh
 pacman_services:
   - docker
   - bluetooth

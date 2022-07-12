@@ -1,7 +1,13 @@
 ---
-npm_top_type: laptop
-npm_installed_packages: "{{ lookup('file', '~/.config/pkglist/npm-' + npm_top_type + '.lst') }}"
+npm_installed_packages:
+  - "@ansible/ansible-language-server@0.8.0"
+  - bash-language-server@3.0.4
+  - npm-check-updates@15.0.1
+  - npm@8.13.2
+  - typescript-language-server@0.11.2
+  - yaml-language-server@1.8.0
+  - yarn@1.22.19
 npm_uninstalled_packages: []
 
 nvm_version: 0.39.1
-node_version: 18.4.0
+node_version: 18.5.0

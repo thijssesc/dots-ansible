@@ -1,10 +1,10 @@
 ---
 lang_lua_force: false
 
-lua_language_server_version: 3.4.0
+lua_language_server_version: 3.4.2
 selene_version: 0.19.1
 shellcheck_version: 0.8.0
-stylua_version: 0.13.1
+stylua_version: 0.14.0
 
 tools:
   - name: lua-language-server
