@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: scthijsse
-  description: Personal lua tools installer.
+  description: Personal firefox installer.
   license: "MIT"
   min_ansible_version: "2.4"
   platforms:

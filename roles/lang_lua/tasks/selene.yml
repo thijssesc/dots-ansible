@@ -1,0 +1,22 @@
+---
+- name: Check if selene binary exists.
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/selene"
+  register: selene_check
+
+- name: Check selene version.
+  ansible.builtin.command: "{{ selene_bin_path }} --version"
+  failed_when: false
+  changed_when: false
+  register: selene_existing_version
+
+- name: Install selene.
+  ansible.builtin.unarchive:
+    src: "{{ selene_repo_path }}/releases/download/{{ selene_version }}/selene-{{ selene_version }}-linux.zip"
+    dest: "{{ selene_bin_path | dirname }}"
+    remote_src: true
+    mode: 0744
+  register: selene_zip
+  when: >
+    not selene_check.stat.exists
+    or selene_version not in selene_existing_version.stdout

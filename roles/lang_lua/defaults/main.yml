@@ -1,34 +1,12 @@
 ---
-lang_lua_force: false
+lls_version: 3.4.2
+lls_repo_path: https://github.com/sumneko/lua-language-server
+lls_bin_path: "{{ ansible_env.HOME }}/.local/bin/language-lua-server"
 
-lua_language_server_version: 3.4.2
 selene_version: 0.19.1
-shellcheck_version: 0.8.0
-stylua_version: 0.14.0
+selene_repo_path: https://github.com/Kampfkarren/selene
+selene_bin_path: "{{ ansible_env.HOME }}/.local/bin/selene"
 
-tools:
-  - name: lua-language-server
-    version: "{{ lua_language_server_version }}"
-    dest: "{{ ansible_env.HOME + '/.local' }}"
-    repo_url: https://github.com/sumneko/lua-language-server
-    download_url: "/releases/download\
-      /{{ lua_language_server_version }}/lua-language-server-{{ lua_language_server_version }}-linux-x64.tar.gz"
-  - name: selene
-    version: "{{ selene_version }}"
-    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
-    repo_url: https://github.com/Kampfkarren/selene
-    download_url: "/releases/download\
-      /{{ selene_version }}/selene-{{ selene_version }}-linux.zip"
-  - name: shellcheck
-    version: "{{ shellcheck_version }}"
-    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
-    repo_url: https://github.com/koalaman/shellcheck
-    download_url: "/releases/download\
-      /v{{ shellcheck_version }}/shellcheck-v{{ shellcheck_version }}.linux.x86_64.tar.xz"
-    extra_opts: [--strip-components=1, "shellcheck-v{{ shellcheck_version }}/shellcheck"]
-  - name: stylua
-    version: "{{ stylua_version }}"
-    dest: "{{ ansible_env.HOME + '/.local/bin' }}"
-    repo_url: https://github.com/JohnnyMorganz/StyLua
-    download_url: "/releases/download\
-      /v{{ stylua_version }}/stylua-linux.zip"
+stylua_version: 0.14.0
+stylua_bin_path: "{{ ansible_env.HOME }}/.local/bin/stylua"
+stylua_repo_path: https://github.com/JohnnyMorganz/StyLua

@@ -1,0 +1,39 @@
+---
+- name: Set facts for reading profiles.ini.
+  ansible.builtin.set_fact:
+    profiles_path: "{{ ansible_env.HOME }}/.mozilla/firefox/profiles.ini"
+    section_name: "Profile{{ ansible_loop.index0 }}"
+
+- name: Set existing name from profiles.ini.
+  ansible.builtin.set_fact:
+    existing_name: "{{ lookup('ansible.builtin.ini', 'Name', file=profiles_path, section=section_name) }}"
+  failed_when: false
+
+- name: Ensure {{ item.name }} profile exists.
+  ansible.builtin.command:
+    cmd: "{{ firefox_package }} -no-remote -CreateProfile {{ item.name }}"
+  when: >
+    existing_name is defined
+    and existing_name != item.name
+
+- name: Set profile path from profiles.ini
+  ansible.builtin.set_fact:
+    profile_path: "{{ lookup('ansible.builtin.ini', 'Path', file=profiles_path, section=section_name) }}"
+
+- name: Install custom css.
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}"
+    src: "{{ ansible_env.HOME }}/Software/SimplerentFox/chrome"
+    remote_src: true
+    mode: 0755
+
+- name: Set user preferences.
+  ansible.builtin.lineinfile:
+    dest: '{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}/prefs.js'
+    regexp: '^user_pref\("{{ pref.name }}", \s*\S+?\);'
+    # yamllint disable-line rule:line-length
+    line: "user_pref(\"{{ pref.name }}\", {{ '\"%s\"' | format(pref.value) if item.value is string else (pref.value | lower) }});"
+    state: present
+  loop_control:
+    loop_var: pref
+  loop: "{{ item.prefs }}"

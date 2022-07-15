@@ -1,0 +1,4 @@
+---
+toast_version: 0.45.5
+taost_repo_path: https://github.com/stepchowfun/toast
+toast_bin_path: "{{ ansible_env.HOME }}/.local/bin/toast"

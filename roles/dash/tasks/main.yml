@@ -1,0 +1,44 @@
+---
+- name: Install dash.
+  become: true
+  ansible.builtin.pacman:
+    name: dash
+    state: present
+    update_cache: true
+
+- name: Ensure pacman hook directory exists.
+  become: true
+  ansible.builtin.file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+
+- name: Set hook directory.
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: '^HookDir'
+    insertafter: '^#HookDir'
+    line: 'HookDir      = /etc/pacman.d/hooks'
+    state: present
+
+- name: Copy dash.hook.
+  become: true
+  ansible.builtin.copy:
+    src: dash.hook
+    dest: /etc/pacman.d/hooks/dash.hook
+    mode: 0644
+    group: root
+    owner: root
+
+- name: Link /usr/bin/sh to dash.
+  become: true
+  ansible.builtin.file:
+    src: /usr/bin/dash
+    dest: /usr/bin/sh
+    state: link
+    mode: 0777
+    group: root
+    owner: root

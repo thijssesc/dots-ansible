@@ -11,6 +11,9 @@
   register: minikube_existing_version
 
 - name: Install minikube.
+  when: >
+    not minikube_check.stat.exists
+    or minikube_version not in minikube_existing_version.stdout
   block:
     - name: Get minikube binary.
       ansible.builtin.get_url:

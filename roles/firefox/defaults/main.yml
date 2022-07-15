@@ -1,0 +1,19 @@
+---
+firefox_package: firefox-developer-edition
+firefox_redo: false
+
+firefox_general_prefs:
+  - name: toolkit.legacyUserProfileCustomizations.stylesheets
+    value: true
+  - name: layers.acceleration.force-enabled
+    value: true
+  - name: gfx.webrender.all
+    value: true
+  - name: svg.context-properties.content.enabled
+    value: true
+
+firefox_profiles:
+  - name: dev-edition-default
+    prefs: "{{ firefox_general_prefs }}"
+  - name: work
+    prefs: "{{ firefox_general_prefs }}"

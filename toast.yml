@@ -70,6 +70,15 @@ tasks:
     command: cd roles/aur && molecule test
     cache: false
 
+  dash:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/dash && molecule test
+    cache: false
+
   dots:
     dependencies:
       - fetch_dependencies
@@ -79,6 +88,15 @@ tasks:
     command: cd roles/dots && molecule test
     cache: false
 
+  firefox:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/firefox && molecule test
+    cache: false
+
   git:
     dependencies:
       - fetch_dependencies
@@ -86,6 +104,24 @@ tasks:
       - roles
       - /var/run/docker.sock
     command: cd roles/git && molecule test
+    cache: false
+
+  k8s:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/k8s && molecule test
+    cache: false
+
+  go:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/lang_go && molecule test
     cache: false
 
   java:
@@ -106,24 +142,6 @@ tasks:
     command: cd roles/lang_javascript && molecule test
     cache: false
 
-  go:
-    dependencies:
-      - fetch_dependencies
-    mount_paths:
-      - roles
-      - /var/run/docker.sock
-    command: cd roles/lang_go && molecule test
-    cache: false
-
-  k8s:
-    dependencies:
-      - fetch_dependencies
-    mount_paths:
-      - roles
-      - /var/run/docker.sock
-    command: cd roles/lang_k8s && molecule test
-    cache: false
-
   lua:
     dependencies:
       - fetch_dependencies
@@ -140,6 +158,24 @@ tasks:
       - roles
       - /var/run/docker.sock
     command: cd roles/lang_python && molecule test
+    cache: false
+
+  rust:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/lang_rust && molecule test
+    cache: false
+
+  shell:
+    dependencies:
+      - fetch_dependencies
+    mount_paths:
+      - roles
+      - /var/run/docker.sock
+    command: cd roles/lang_shell && molecule test
     cache: false
 
   neovim:

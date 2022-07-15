@@ -15,13 +15,6 @@
     not helm_check.stat.exists
     or helm_version not in helm_existing_version.stdout
   block:
-    - name: Get helm tar.
-      ansible.builtin.get_url:
-        url: "{{ helm_repo_path }}/helm-{{ helm_version }}-{{ helm_platform }}-{{ helm_arch }}.tar.gz"
-        dest: /tmp
-        mode: 0755
-      register: helm_tar
-
     - name: Set sha256 checksum url.
       ansible.builtin.set_fact:
         # yamllint disable-line rule:line-length
@@ -38,10 +31,13 @@
         get_checksum: true
       register: result
 
-    - name: Validate helm tar checksum.
-      ansible.builtin.assert:
-        that:
-          - helm_checksum.split(' ') | first == result.stat.checksum
+    - name: Get helm tar.
+      ansible.builtin.get_url:
+        url: "{{ helm_repo_path }}/helm-{{ helm_version }}-{{ helm_platform }}-{{ helm_arch }}.tar.gz"
+        dest: /tmp
+        chekcsum: result.stat.checksum
+        mode: 0644
+      register: helm_tar
 
     - name: Unarchive helm.
       ansible.builtin.unarchive:
@@ -59,3 +55,11 @@
         mode: 0755
         owner: root
         group: root
+
+    - name: Cleanup tar and unarchived folders.
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ helm_tar.dest }}"
+        - "/tmp/{{ helm_platform }}-helm_arch }}"

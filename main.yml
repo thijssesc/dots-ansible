@@ -10,22 +10,30 @@
     - role: dots
       tags: [never, dots]
     - role: pacman
-      tags: [pacman]
+      tags: [never, pacman]
     - role: aur
-      tags: [aur]
+      tags: [never, aur]
+    - role: dash
+      tags: [never, dash]
+    - role: firefox
+      tags: [never, firefox]
+    - role: k8s
+      tags: [never, k8s]
     - role: lang_go
-      tags: [go]
+      tags: [never, go]
     - role: lang_java
-      tags: [java]
+      tags: [never, java]
     - role: lang_javascript
-      tags: [javascript]
-    - role: lang_k8s
-      tags: [k8s]
+      tags: [never, javascript]
     - role: lang_lua
-      tags: [lua]
+      tags: [never, lua]
     - role: lang_python
-      tags: [python]
+      tags: [never, python]
+    - role: lang_rust
+      tags: [never, rust]
+    - role: lang_shell
+      tags: [never, shell]
     - role: neovim
-      tags: [neovim]
+      tags: [never, neovim]
     - role: suckless
-      tags: [suckless]
+      tags: [never, suckless]

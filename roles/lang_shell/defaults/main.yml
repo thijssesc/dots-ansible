@@ -1,0 +1,4 @@
+---
+shellcheck_version: 0.8.0
+shellcheck_repo_path: https://github.com/koalaman/shellcheck
+shellcheck_bin_path: "{{ ansible_env.HOME }}/.local/bin/shellcheck"

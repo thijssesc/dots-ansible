@@ -8,6 +8,4 @@
   notify:
     - uninstall lua dependencies
 
-- ansible.builtin.include_tasks: lua_language_server.yml
-- ansible.builtin.include_tasks: selene.yml
-- ansible.builtin.include_tasks: stylua.yml
+- ansible.builtin.include_tasks: shellcheck.yml
