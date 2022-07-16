@@ -2,7 +2,7 @@ VERSION 0.6
 FROM earthly/dind:alpine
 WORKDIR /src
 
-RUN apk add --update --no-cache python3 python3-dev gcc libc-dev && \
+RUN apk add --update --no-cache python3 python3-dev git gcc libc-dev && \
     python3 -m ensurepip --upgrade && \
     pip3 install ansible-lint yamllint molecule[docker] docker
 

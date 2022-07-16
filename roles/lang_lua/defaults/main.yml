@@ -1,6 +1,6 @@
 ---
 lls_version: 3.4.2
-lss_platform: linux
+lls_platform: linux
 lls_repo_path: https://github.com/sumneko/lua-language-server
 lls_bin_path: "{{ ansible_env.HOME }}/.local/bin/language-lua-server"
 
