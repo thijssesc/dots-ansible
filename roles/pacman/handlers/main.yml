@@ -12,4 +12,4 @@
   become: true
   ansible.builtin.pacman:
     update_cache: true
-  tags: [molecule-notest]
+  tags: [molecule-idempotence-notest]

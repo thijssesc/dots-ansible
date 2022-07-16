@@ -18,7 +18,6 @@
     replace: 'Server ='
   notify: update cache
 
-
 - name: Enable multilib repository.
   become: true
   ansible.builtin.lineinfile:

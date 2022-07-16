@@ -5,6 +5,7 @@
     name: dash
     state: present
     update_cache: true
+  tags: [molecule-idempotence-notest]
 
 - name: Ensure pacman hook directory exists.
   become: true

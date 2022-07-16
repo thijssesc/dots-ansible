@@ -19,6 +19,7 @@
   become: true
   ansible.builtin.pacman:
     update_cache: true
+  tags: [molecule-idempotence-notest]
 
 - name: Install yay.
   become: true

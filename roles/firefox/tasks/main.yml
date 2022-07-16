@@ -5,6 +5,7 @@
     name: "{{ firefox_package }}"
     state: present
     update_cache: true
+  tags: [molecule-idempotence-notest]
 
 - name: Clone SimpleFox.
   ansible.builtin.git:

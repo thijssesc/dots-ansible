@@ -5,6 +5,7 @@
     name: "{{ neovim_dependencies }}"
     state: present
     update_cache: true
+  tags: [molecule-idempotence-notest]
 
 - name: Clone neovim.
   ansible.builtin.git:
