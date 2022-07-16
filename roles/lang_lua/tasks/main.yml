@@ -5,8 +5,6 @@
     name: unzip
     state: present
     update_cache: true
-  notify:
-    - uninstall lua dependencies
 
 - ansible.builtin.include_tasks: lua_language_server.yml
 - ansible.builtin.include_tasks: selene.yml

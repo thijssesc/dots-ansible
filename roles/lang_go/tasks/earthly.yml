@@ -1,0 +1,27 @@
+---
+- name: "Ensure {{ earthly_bin_path | dirname }} exists."
+  ansible.builtin.file:
+    path: "{{ earthly_bin_path | dirname }}"
+    state: directory
+    mode: 0755
+
+- name: Check if earthly binary exists.
+  ansible.builtin.stat:
+    path: "{{ earthly_bin_path }}"
+  register: earthly_check
+
+- name: Check Earthly version.
+  ansible.builtin.command: "{{ earthly_bin_path }} --version"
+  failed_when: false
+  changed_when: false
+  register: earthly_existing_version
+
+- name: Install Earthly.
+  ansible.builtin.get_url:
+    # yamllint disable-line rule:line-length
+    url: "{{ earthly_repo_path }}/releases/download/v{{ earthly_version }}/earthly-{{ earthly_platform }}-{{ earthly_arch }}"
+    dest: "{{ earthly_bin_path }}"
+    mode: 0755
+  when: >
+    not earthly_check.stat.exists
+    or earthly_version not in earthly_existing_version.stdout

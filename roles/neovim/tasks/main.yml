@@ -5,8 +5,6 @@
     name: "{{ neovim_dependencies }}"
     state: present
     update_cache: true
-  notify:
-    - uninstall neovim dependencies
 
 - name: Clone neovim.
   ansible.builtin.git:
@@ -18,7 +16,8 @@
   changed_when: neovim.changed or neovim_force
   notify:
     - build neovim
-    - install neovim plugins
+    # - remove plugins
+    # - install neovim plugins
 
 - name: Flush handlers.
   ansible.builtin.meta: flush_handlers

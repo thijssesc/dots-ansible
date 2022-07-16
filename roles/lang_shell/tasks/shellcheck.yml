@@ -1,10 +1,9 @@
 ---
-- name: Install tar.
-  become: true
-  ansible.builtin.pacman:
-    name: tar
-    state: present
-    update_cache: true
+- name: "Ensure {{ shellcheck_bin_path | dirname }} exists."
+  ansible.builtin.file:
+    path: "{{ shellcheck_bin_path | dirname }}"
+    state: directory
+    mode: 0755
 
 - name: Check if shellcheck binary exists.
   ansible.builtin.stat:
@@ -25,7 +24,7 @@
     - name: Get shellcheck zip.
       ansible.builtin.get_url:
         # yamllint disable-line rule:line-length
-        url: "{{ shellcheck_repo_path }}/releases/download/v{{ shellcheck_version }}/shellcheck-v{{ shellcheck_version }}.linux.x86_64.tar.xz"
+        url: "{{ shellcheck_repo_path }}/releases/download/v{{ shellcheck_version }}/shellcheck-v{{ shellcheck_version }}.{{ shellcheck_platform }}.{{ shellcheck_arch }}.tar.xz"
         dest: /tmp
         mode: 0644
       register: shellcheck_zip

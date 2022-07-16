@@ -1,5 +1,6 @@
 ---
 firefox_package: firefox-developer-edition
+firefox_profiles_path: "{{ ansible_env.HOME }}/.mozilla/firefox/profiles.ini"
 firefox_redo: false
 
 firefox_general_prefs:
@@ -13,7 +14,7 @@ firefox_general_prefs:
     value: true
 
 firefox_profiles:
-  - name: dev-edition-default
+  - name: personal
     prefs: "{{ firefox_general_prefs }}"
   - name: work
     prefs: "{{ firefox_general_prefs }}"

@@ -1,4 +1,10 @@
 ---
+- name: "Ensure {{ lls_bin_path | dirname }} exists."
+  ansible.builtin.file:
+    path: "{{ lls_bin_path | dirname }}"
+    state: directory
+    mode: 0755
+
 - name: Check if lua-language-server binary exists.
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.local/bin/lua-language-server"
@@ -13,11 +19,10 @@
 - name: Install lua-language-server.
   ansible.builtin.unarchive:
     # yamllint disable-line rule:line-length
-    src: "{{ lls_repo_path }}/releases/download/{{ lls_version }}/lua-language-server-{{ lls_version }}-linux-x64.tar.gz"
+    src: "{{ lls_repo_path }}/releases/download/{{ lls_version }}/lua-language-server-{{ lls_version }}-{{ lls_platform }}-x64.tar.gz"
     dest: "{{ lls_bin_path | dirname | dirname }}"
     remote_src: true
     mode: 0755
-  register: lls_zip
   when: >
     not lls_check.stat.exists
     or lls_version not in lls_existing_version.stdout

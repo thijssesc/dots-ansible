@@ -1,4 +1,10 @@
 ---
+- name: "Ensure {{ stylua_bin_path | dirname }} exists."
+  ansible.builtin.file:
+    path: "{{ stylua_bin_path | dirname }}"
+    state: directory
+    mode: 0755
+
 - name: Check if stylua binary exists.
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.local/bin/stylua"
@@ -12,11 +18,10 @@
 
 - name: Install stylua.
   ansible.builtin.unarchive:
-    src: "{{ stylua_repo_path }}/releases/download/v{{ stylua_version }}/stylua-linux.zip"
+    src: "{{ stylua_repo_path }}/releases/download/v{{ stylua_version }}/stylua-{{ stylua_platform }}.zip"
     dest: "{{ stylua_bin_path | dirname }}"
     remote_src: true
-    mode: 0744
-  register: stylua_zip
+    mode: 0755
   when: >
     not stylua_check.stat.exists
     or stylua_version not in stylua_existing_version.stdout

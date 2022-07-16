@@ -1,2 +1,8 @@
 ---
+earthly_version: 0.6.19
+earthly_platform: linux
+earthly_arch: amd64
+earthly_repo_path: https://github.com/earthly/earthly
+earthly_bin_path: /usr/local/bin/earthly
+
 golangcilint_version: 1.46.2

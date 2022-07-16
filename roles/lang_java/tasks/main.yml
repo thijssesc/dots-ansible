@@ -1,10 +1,13 @@
 ---
-- name: Install java11.
+- name: Install java17.
   become: true
   ansible.builtin.pacman:
-    name: jdk11-openjdk
+    name:
+      - jdk17-openjdk
+      - maven
     state: present
     update_cache: true
+  tags: [molecule-idempotence-notest]
 
 - name: Clone eclipse.jdt.ls.
   ansible.builtin.git:
@@ -16,6 +19,7 @@
   changed_when: eclipse.changed or lang_java_force
   notify:
     - build eclipse.jdt.ls
+  tags: [molecule-notest]
 
 - name: Clone java-debug.
   ansible.builtin.git:
@@ -37,7 +41,6 @@
   register: test
   changed_when: test.changed or lang_java_force
   notify:
-    - install nodejs dependencies for vscode-java-test
     - build vscode-java-test
 
 - name: Clone vscode-java-decompiler.

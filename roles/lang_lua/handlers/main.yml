@@ -1,7 +1,0 @@
----
-- name: uninstall lua dependencies
-  become: true
-  ansible.builtin.pacman:
-    name: unzip
-    state: absent
-    update_cache: true

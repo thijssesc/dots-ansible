@@ -1,4 +1,7 @@
 ---
+nvm_version: 0.39.1
+node_version: 18.6.0
+
 npm_installed_packages:
   - "@ansible/ansible-language-server@0.8.0"
   - bash-language-server@3.0.4
@@ -8,6 +11,3 @@ npm_installed_packages:
   - yaml-language-server@1.8.0
   - yarn@1.22.19
 npm_uninstalled_packages: []
-
-nvm_version: 0.39.1
-node_version: 18.5.0

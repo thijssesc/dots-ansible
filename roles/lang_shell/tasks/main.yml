@@ -5,7 +5,5 @@
     name: unzip
     state: present
     update_cache: true
-  notify:
-    - uninstall lua dependencies
 
 - ansible.builtin.include_tasks: shellcheck.yml

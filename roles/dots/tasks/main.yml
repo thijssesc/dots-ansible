@@ -33,7 +33,7 @@
         remote_src: true
         src: "{{ item.path }}"
         dest: "{{ ansible_env.HOME }}"
-        mode: 0744
+        mode: "{{ '0755' if item.isdir else '0644' }}"
       loop: "{{ register.files }}"
 
     - name: Remove old dots folder.

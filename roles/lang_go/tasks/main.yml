@@ -8,4 +8,5 @@
     state: present
     update_cache: true
 
+- ansible.builtin.include_tasks: earthly.yml
 - ansible.builtin.include_tasks: golangcilint.yml

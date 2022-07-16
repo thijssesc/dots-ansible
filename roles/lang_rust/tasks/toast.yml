@@ -1,0 +1,27 @@
+---
+- name: "Ensure {{ toast_bin_path | dirname }} exists."
+  ansible.builtin.file:
+    path: "{{ toast_bin_path | dirname }}"
+    state: directory
+    mode: 0755
+
+- name: Check if toast binary exists.
+  ansible.builtin.stat:
+    path: "{{ toast_bin_path }}"
+  register: toast_check
+
+- name: Check toast version.
+  ansible.builtin.command: "{{ toast_bin_path }} --version"
+  failed_when: false
+  changed_when: false
+  register: toast_existing_version
+
+- name: Install toast.
+  ansible.builtin.get_url:
+    # yamllint disable-line rule:line-length
+    url: "https://github.com/stepchowfun/toast/releases/download/v{{ toast_version }}/toast-{{ toast_arch }}-unknown-{{ toast_platform }}-gnu"
+    dest: "{{ toast_bin_path }}"
+    mode: 0755
+  when: >
+    not toast_check.stat.exists
+    or toast_version not in toast_existing_version.stdout

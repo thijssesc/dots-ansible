@@ -6,13 +6,11 @@
     state: present
     update_cache: true
 
-- name: Clone SimplerentFox.
+- name: Clone SimpleFox.
   ansible.builtin.git:
     dest: "{{ ansible_env.HOME }}/Software/SimpleFox"
     repo: https://github.com/SCThijsse/SimpleFox.git
     version: master
-    update: "{{ firefox_redo }}"
-    force: "{{ firefox_redo }}"
 
 - name: Add remote upstream to git repository.  # noqa command-instead-of-module
   ansible.builtin.command:
@@ -27,5 +25,3 @@
 - ansible.builtin.include_tasks:
     file: profile.yml
   loop: "{{ firefox_profiles }}"
-  loop_control:
-    extended: true
