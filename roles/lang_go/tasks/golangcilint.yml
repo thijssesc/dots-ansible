@@ -26,7 +26,7 @@
         # yamllint disable-line rule:line-length
         golangcilint_file_name: "{{ 'golangci-lint-' + golangcilint_version + '-' + golangcilint_platform + '-' + golangcilint_arch + '.tar.gz' }}"
 
-    - name: Bar.
+    - name: Get sha256 checksum.
       ansible.builtin.set_fact:
         # yamllint disable-line rule:line-length
         golangcilint_checksum: "{{ golangcilint_checksums | regex_search('(.*)' + golangcilint_file_name, miltiline=True) | split(' ') | first | trim }}"
