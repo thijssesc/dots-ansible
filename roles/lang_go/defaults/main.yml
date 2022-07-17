@@ -9,4 +9,4 @@ golangcilint_version: 1.46.2
 golangcilint_platform: linux
 golangcilint_arch: amd64
 golangcilint_repo_path: https://github.com/golangci/golangci-lint
-golangci_bin_path: /usr/local/bin/golangci-lint
+golangcilint_bin_path: /usr/local/bin/golangci-lint

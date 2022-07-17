@@ -1,40 +1,43 @@
 ---
-- name: Get GOPATH.
-  ansible.builtin.command:
-    cmd: go env GOPATH
-  failed_when: false
-  changed_when: false
-  register: gopath
-
-- name: Check if golangci-lint exists.
+- name: Check if golangci-lint binary exists.
   ansible.builtin.stat:
-    path: "{{ gopath.stdout }}/bin/golangci-lint"
+    path: "{{ golangcilint_bin_path }}"
   register: golangcilint_check
 
 - name: Check golangci-lint version.
-  ansible.builtin.command: "{{ gopath.stdout }}/bin/golangci-lint version"
+  ansible.builtin.command: "{{ golangcilint_bin_path }} version"
   failed_when: false
   changed_when: false
   register: golangcilint_existing_version
 
 - name: Install golangci-lint.
-  when: >
-    not golangcilint_check.stat.exists
-    or golangcilint_version not in golangcilint_existing_version.stdout
+  # when: >
+  #   not golangcilint_check.stat.exists
+  #   or golangcilint_version not in golangcilint_existing_version.stdout
   block:
-    - name: Get golangci-lint install script.
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh
-        dest: /tmp/golangci-lint_install.sh
-        mode: 0700
-      register: golangcilint_shell
+    - name: Set sha256 checksum url.
+      ansible.builtin.set_fact:
+        # yamllint disable-line rule:line-length
+        golangcilint_checksum_url: "{{ golangcilint_repo_path }}/releases/download/v{{ golangcilint_version }}/golangci-lint-{{ golangcilint_version }}-checksums.txt"
 
-    - name: Install golangci-lint.
-      ansible.builtin.command:
-        cmd: "/tmp/golangci-lint_install.sh -b {{ gopath.stdout }}/bin v{{ golangcilint_version }}"
-        creates: "{{ gopath.stdout }}/bin/golangci_lint"
+    - name: Get sha256 checksum.
+      ansible.builtin.set_fact:
+        golangcilint_checksum: "{{ lookup('url', golangcilint_checksum_url, split_lines=True) | split(',') }}"
 
-    - name: Cleanup golangci-link_install.sh.
-      ansible.builtin.file:
-        path: "{{ golangcilint_shell.dest }}"
-        state: absent
+    - debug:
+        var: golangcilint_checksum
+    # - name: Get checksum of downloaded golangci-lint tar.
+    #   ansible.builtin.stat:
+    #     path: "{{ golangcilint_tar.dest }}"
+    #     checksum_algorithm: sha256
+    #     get_checksum: true
+    #   register: result
+
+    # - name: Get golangci-lint tar.
+    #   ansible.builtin.get_url:
+    #     # yamllint disable-line rule:line-length
+    #     url: "{{ golangcilint_repo_path }}/releases/download/v{{ golangcilint_version }}/golangci-lint-{{ golangcilint_version }}-{{ golangcilint_platform }}-{{ golangcilint_arch }}.tar.gz"
+    #     dest: /tmp
+    #     checksum: "sha256:{{ golangcilint_checksum }}"
+    #     mode: 0644
+    #   register: golangcilint_tar

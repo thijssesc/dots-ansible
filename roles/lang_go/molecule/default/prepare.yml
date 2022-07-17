@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Update pacman cache.
+      ansible.builtin.pacman:
+        update_cache: true

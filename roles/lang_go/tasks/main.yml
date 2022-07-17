@@ -6,8 +6,6 @@
       - go
       - gopls
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
-- ansible.builtin.include_tasks: earthly.yml
+# - ansible.builtin.include_tasks: earthly.yml
 - ansible.builtin.include_tasks: golangcilint.yml
