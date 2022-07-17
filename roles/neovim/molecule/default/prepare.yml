@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: false
 
+  vars:
+    dots_git_dest: /root
+
   pre_tasks:
     - name: Update pacman cache.
       ansible.builtin.pacman:

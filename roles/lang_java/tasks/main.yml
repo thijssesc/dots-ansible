@@ -46,3 +46,4 @@
     repo: https://github.com/dgileadi/vscode-java-decompiler
     dest: "{{ java_decompiler_git_dest }}"
     version: master
+    force: true

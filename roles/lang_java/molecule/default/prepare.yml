@@ -5,7 +5,6 @@
 
   pre_tasks:
     - name: Update pacman cache.
-      become: true
       ansible.builtin.pacman:
         update_cache: true
 

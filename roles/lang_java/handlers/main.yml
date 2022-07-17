@@ -23,4 +23,4 @@
   environment:
     JAVA_HOME: /usr/lib/jvm/java-17-openjdk
   args:
-    chdir: "{{ java_test_git_dest }}"
+    chdir: "{{ java_test_git_dest }}/java-extension"

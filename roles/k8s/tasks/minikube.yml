@@ -15,14 +15,6 @@
     not minikube_check.stat.exists
     or minikube_version not in minikube_existing_version.stdout
   block:
-    - name: Get minikube binary.
-      ansible.builtin.get_url:
-        # yamllint disable-line rule:line-length
-        url: "{{ minikube_repo_path }}/minikube/releases/{{ minikube_version }}/minikube-{{ minikube_platform }}-{{ minikube_arch }}"
-        dest: /tmp
-        mode: 0755
-      register: minikube_binary
-
     - name: Set sha256 checksum url.
       ansible.builtin.set_fact:
         # yamllint disable-line rule:line-length
@@ -32,24 +24,10 @@
       ansible.builtin.set_fact:
         minikube_checksum: "{{ lookup('url', minikube_checksum_url, split_lines=False) | trim | split(' ') | first }}"
 
-    - name: Get checksum of downloaded minikube binary.
-      ansible.builtin.stat:
-        path: "{{ minikube_binary.dest }}"
-        checksum_algorithm: sha256
-        get_checksum: true
-      register: result
-
-    - name: Validate minikube binary checksum.
-      ansible.builtin.assert:
-        that:
-          - minikube_checksum == result.stat.checksum
-
-    - name: Install minikube.
-      become: true
-      ansible.builtin.copy:
-        src: "{{ minikube_binary.dest }}"
+    - name: Get minikube binary.
+      ansible.builtin.get_url:
+        # yamllint disable-line rule:line-length
+        url: "{{ minikube_repo_path }}/minikube/releases/{{ minikube_version }}/minikube-{{ minikube_platform }}-{{ minikube_arch }}"
         dest: "{{ minikube_bin_path }}"
-        remote_src: true
+        checksum: "sha256:{{ minikube_checksum }}"
         mode: 0755
-        owner: root
-        group: root

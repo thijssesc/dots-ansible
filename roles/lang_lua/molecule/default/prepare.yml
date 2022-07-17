@@ -4,6 +4,6 @@
   gather_facts: false
 
   tasks:
-    - name: Update pacman cache
+    - name: Update pacman cache.
       ansible.builtin.pacman:
         update_cache: true

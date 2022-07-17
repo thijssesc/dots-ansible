@@ -6,7 +6,7 @@
   vars:
     nvm_install_dir: "/root/.config/nvm"
     npm_installed_packages:
-      - yarn
+      - typescript
 
   roles:
     - role: lang_javascript

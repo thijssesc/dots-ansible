@@ -9,6 +9,5 @@
     group: root
 
 - name: update cache
-  become: true
   ansible.builtin.pacman:
     update_cache: true
