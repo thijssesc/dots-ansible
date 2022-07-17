@@ -1,6 +1,11 @@
 ---
 - name: Converge
   hosts: all
+  gather_facts: false
+
+  vars:
+    firefox_config_path: "/root/.mozilla/firefox"
+    firefox_simplefox_git_dest: "/root/SimpleFox"
 
   roles:
     - role: firefox

@@ -1,0 +1,3 @@
+---
+
+dots_git_dest: "{{ ansible_env.HOME }}"

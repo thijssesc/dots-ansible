@@ -1,13 +1,13 @@
 ---
 - name: Check if git exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.git"
+    path: "{{ dots_git_dest }}/.git"
   register: result
 
 - name: Clone/update dots.
   ansible.builtin.git:
     clone: "{{ not result.stat.exists }}"
-    dest: "{{ (not result.stat.exists) | ternary(ansible_env.HOME + '/dots', ansible_env.HOME) }}"
+    dest: "{{ (not result.stat.exists) | ternary(dots_git_dest + '/dots', dots_git_dest) }}"
     repo: https://github.com/SCThijsse/dots.git
     version: master
     force: true
@@ -17,13 +17,13 @@
   block:
     - name: Clone dots.
       ansible.builtin.git:
-        dest: "{{ ansible_env.HOME }}/dots"
+        dest: "{{ dots_git_dest }}/dots"
         repo: https://github.com/SCThijsse/dots.git
         version: master
 
     - name: Find dots.
       ansible.builtin.find:
-        paths: "{{ ansible_env.HOME }}/dots"
+        paths: "{{ dots_git_dest }}/dots"
         file_type: any
         hidden: true
       register: register
@@ -32,18 +32,18 @@
       ansible.builtin.copy:
         remote_src: true
         src: "{{ item.path }}"
-        dest: "{{ ansible_env.HOME }}"
+        dest: "{{ dots_git_dest }}"
         mode: "{{ '0755' if item.isdir else '0644' }}"
       loop: "{{ register.files }}"
 
     - name: Remove old dots folder.
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/dots"
+        path: "{{ dots_git_dest }}/dots"
         state: absent
   when: not result.stat.exists
 
 - name: Create .zprofile symlink.
   ansible.builtin.file:
-    src: "{{ ansible_env.HOME }}/.profile"
-    dest: "{{ ansible_env.HOME }}/.zprofile"
+    src: "{{ dots_git_dest }}/.profile"
+    dest: "{{ dots_git_dest }}/.zprofile"
     state: link

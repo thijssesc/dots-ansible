@@ -1,6 +1,12 @@
 ---
 - name: Converge
   hosts: all
+  gather_facts: false
+
+  vars:
+    neovim_git_dest: "/root/neovim"
+    neovim_plugin_dir: "/root/.config/nvim/plugin"
+    neovim_bootstrap_config: "/root/.config/nvim/lua/thijssesc/packer.lua"
 
   roles:
     - role: neovim

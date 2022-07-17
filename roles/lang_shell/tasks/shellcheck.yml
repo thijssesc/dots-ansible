@@ -7,7 +7,7 @@
 
 - name: Check if shellcheck binary exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.local/bin/shellcheck"
+    path: "{{ shellcheck_bin_path }}"
   register: shellcheck_check
 
 - name: Check lua-language-server version.

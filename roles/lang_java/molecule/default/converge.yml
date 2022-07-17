@@ -1,9 +1,13 @@
 ---
 - name: Converge
   hosts: all
+  gather_facts: false
 
   vars:
-    node_version: 18.6.0
+    java_eclipse_git_dest: "/root/eclipse.jdt.ls"
+    java_debug_git_dest: "/root/java-debug"
+    java_test_git_dest: "/root/vscode-java-test"
+    java_decompiler_git_dest: "/root/vscode-java-decompiler"
 
   roles:
     - role: lang_java

@@ -15,7 +15,7 @@
     validate: 'visudo -cf %s'
     mode: 0750
 
-- name: Update cache.
+- name: Update pacman cache.
   become: true
   ansible.builtin.pacman:
     update_cache: true

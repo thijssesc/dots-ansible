@@ -4,12 +4,10 @@
   ansible.builtin.pacman:
     name: "{{ neovim_dependencies }}"
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - name: Clone neovim.
   ansible.builtin.git:
-    dest: "{{ ansible_env.HOME }}/Software/neovim"
+    dest: "{{ neovim_git_dest }}"
     repo: "https://github.com/neovim/neovim.git"
     version: master
     force: true

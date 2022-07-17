@@ -1,6 +1,6 @@
 ---
 firefox_package: firefox-developer-edition
-firefox_profiles_path: "{{ ansible_env.HOME }}/.mozilla/firefox/profiles.ini"
+firefox_config_path: "{{ ansible_env.HOME }}/.mozilla/firefox"
 firefox_redo: false
 
 firefox_general_prefs:
@@ -18,3 +18,5 @@ firefox_profiles:
     prefs: "{{ firefox_general_prefs }}"
   - name: work
     prefs: "{{ firefox_general_prefs }}"
+
+firefox_simplefox_git_dest: "{{ ansible_env.HOME }}/Software/SimpleFox"

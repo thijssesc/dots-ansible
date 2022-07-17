@@ -1,8 +1,10 @@
 ---
 - name: Converge
   hosts: all
+  gather_facts: false
 
   vars:
+    nvm_install_dir: "/root/.config/nvm"
     npm_installed_packages:
       - yarn
 

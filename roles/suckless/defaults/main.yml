@@ -11,6 +11,8 @@ suckless_installed_tools:
     - tabbed
 suckless_uninstalled_tools: []
 
+suckless_git_dest: "{{ ansible_env.HOME }}/Software/suckless"
+
 suckless_dependencies:
     - imlib2
     - libexif

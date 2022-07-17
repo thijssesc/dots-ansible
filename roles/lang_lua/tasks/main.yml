@@ -4,8 +4,6 @@
   ansible.builtin.pacman:
     name: unzip
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - ansible.builtin.include_tasks: lua_language_server.yml
 - ansible.builtin.include_tasks: selene.yml

@@ -5,7 +5,7 @@
 
 - name: Clone the tool.
   ansible.builtin.git:
-    dest: "{{ ansible_env.HOME }}/Software/suckless/{{ suckless_tool }}"
+    dest: "{{ suckless_git_dest }}/{{ suckless_tool }}"
     repo: "https://github.com/SCThijsse/{{ suckless_tool }}.git"
     version: master
     update: "{{ suckless_redo }}"
@@ -18,7 +18,7 @@
 - name: Add remote upstream to git repository.  # noqa command-instead-of-module
   ansible.builtin.command:
     cmd: "git remote add upstream https://git.suckless.org/{{ suckless_tool }}"
-    chdir: "{{ ansible_env.HOME }}/Software/suckless/{{ suckless_tool }}"
+    chdir: "{{ suckless_git_dest }}/{{ suckless_tool }}"
   register: add_result
   changed_when: add_result.rc == 0
   failed_when:

@@ -6,17 +6,15 @@
       - jdk17-openjdk
       - maven
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - name: Clone eclipse.jdt.ls.
   ansible.builtin.git:
     repo: https://github.com/eclipse/eclipse.jdt.ls
-    dest: "{{ ansible_env.HOME }}/Software/eclipse.jdt.ls"
+    dest: "{{ java_eclipse_git_dest }}"
     version: master
     force: true
   register: eclipse
-  changed_when: eclipse.changed or lang_java_force
+  changed_when: eclipse.changed or java_force
   notify:
     - build eclipse.jdt.ls
   tags: [molecule-notest]
@@ -24,27 +22,27 @@
 - name: Clone java-debug.
   ansible.builtin.git:
     repo: https://github.com/microsoft/java-debug
-    dest: "{{ ansible_env.HOME }}/Software/java-debug"
+    dest: "{{ java_debug_git_dest }}"
     version: main
     force: true
   register: debug
-  changed_when: debug.changed or lang_java_force
+  changed_when: debug.changed or java_force
   notify:
     - build java-debug
 
 - name: Clone vscode-java-test.
   ansible.builtin.git:
     repo: https://github.com/microsoft/vscode-java-test
-    dest: "{{ ansible_env.HOME }}/Software/vscode-java-test"
+    dest: "{{ java_test_git_dest }}"
     version: main
     force: true
   register: test
-  changed_when: test.changed or lang_java_force
+  changed_when: test.changed or java_force
   notify:
     - build vscode-java-test
 
 - name: Clone vscode-java-decompiler.
   ansible.builtin.git:
     repo: https://github.com/dgileadi/vscode-java-decompiler
-    dest: "{{ ansible_env.HOME }}/Software/vscode-java-decompiler"
+    dest: "{{ java_decompiler_git_dest }}"
     version: master

@@ -11,3 +11,5 @@ npm_installed_packages:
   - yaml-language-server@1.8.0
   - yarn@1.22.19
 npm_uninstalled_packages: []
+
+nvm_install_dir: "{{ ansible_env.HOME }}/.config/nvm"

@@ -1,35 +1,51 @@
 ---
-- name: Find nvm script.
+- name: Check if nvm script exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.config/nvm/nvm.sh"
-  register: result
+    path: "{{ nvm_install_dir }}/nvm.sh"
+  register: nvm_check
 
-- name: Download nvm install script.
-  ansible.builtin.get_url:
-    dest: "{{ ansible_env.HOME }}/nvm_install.sh"
-    url: "https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh"
-    mode: 0755
-  when: not result.stat.exists
+- name: Check nvm version.
+  ansible.builtin.shell: ". {{ nvm_install_dir }}/nvm.sh && nvm --version"
+  failed_when: false
+  changed_when: false
+  register: nvm_existing_version
 
 - name: Install nvm.
-  ansible.builtin.command:
-    cmd: "/usr/bin/env sh {{ ansible_env.HOME }}/nvm_install.sh"
-    chdir: "{{ ansible_env.HOME }}"
-    creates: "{{ ansible_env.HOME }}/.config/nvm/nvm.sh"
-  environment:
-    XDG_CONFIG_HOME: "{{ ansible_env.HOME }}/.config"
+  when: >
+    not nvm_check.stat.exists
+    or nvm_version not in nvm_existing_version.stdout
+  block:
+    - name: Remove current nvm installation.
+      ansible.builtin.file:
+        path: "{{ nvm_install_dir }}"
+        state: absent
 
-- name: Remove nvm install script.
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/nvm_install.sh"
-    state: absent
+    - name: Download nvm install script.
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh"
+        dest: /tmp
+        mode: 0755
+      register: nvm_script
+
+    - name: Install nvm.
+      ansible.builtin.command:
+        cmd: "sh {{ nvm_script.dest }}"
+        chdir: /tmp
+        creates: "{{ nvm_install_dir }}/nvm.sh"
+      environment:
+        XDG_CONFIG_HOME: "{{ nvm_install_dir | dirname }}"
+
+    - name: Cleanup nvm install script.
+      ansible.builtin.file:
+        path: "{{ nvm_script.dest }}"
+        state: absent
 
 - name: Install node & npm.
   ansible.builtin.shell:
     cmd: >
-      . {{ ansible_env.HOME }}/.config/nvm/nvm.sh &&
+      . {{ nvm_install_dir }}/nvm.sh &&
       nvm install --default --no-progress --latest-npm {{ node_version }}
-    creates: "{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}"
+    creates: "{{ nvm_install_dir }}/versions/node/v{{ node_version }}"
 
 - name: Install npm packages.
   community.general.npm:
@@ -37,7 +53,7 @@
     state: present
     global: true
   environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+    PATH: "{{ nvm_install_dir }}/versions/node/v{{ node_version }}/bin"
   when: npm_installed_packages | length > 0
   loop: "{{ npm_installed_packages }}"
 
@@ -48,6 +64,6 @@
     production: true
     global: true
   environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.config/nvm/versions/node/v{{ node_version }}/bin"
+    PATH: "{{ nvm_install_dir }}/versions/node/v{{ node_version }}/bin"
   when: npm_uninstalled_packages | length > 0
   loop: "{{ npm_uninstalled_packages }}"

@@ -7,7 +7,7 @@
 
 - name: Check if stylua binary exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.local/bin/stylua"
+    path: "{{ stylua_bin_path }}"
   register: stylua_check
 
 - name: Check stylua version.

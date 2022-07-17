@@ -4,8 +4,6 @@
   ansible.builtin.pacman:
     name: python
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - name: Install pip.
   ansible.builtin.command:

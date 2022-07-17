@@ -4,19 +4,17 @@
   ansible.builtin.pacman:
     name: "{{ firefox_package }}"
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - name: Clone SimpleFox.
   ansible.builtin.git:
-    dest: "{{ ansible_env.HOME }}/Software/SimpleFox"
     repo: https://github.com/SCThijsse/SimpleFox.git
+    dest: "{{ firefox_simplefox_git_dest }}"
     version: master
 
 - name: Add remote upstream to git repository.  # noqa command-instead-of-module
   ansible.builtin.command:
     cmd: "git remote add upstream https://github.com/migueravila/SimpleFox"
-    chdir: "{{ ansible_env.HOME }}/Software/SimpleFox"
+    chdir: "{{ firefox_simplefox_git_dest }}"
   register: add_result
   changed_when: add_result.rc == 0
   failed_when:

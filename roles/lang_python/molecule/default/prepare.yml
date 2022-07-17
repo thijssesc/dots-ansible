@@ -3,11 +3,7 @@
   hosts: all
   gather_facts: false
 
-  pre_tasks:
-    - name: Update pacman cache.
-      become: true
+  tasks:
+    - name: Update pacman cache
       ansible.builtin.pacman:
         update_cache: true
-
-  roles:
-    - role: git

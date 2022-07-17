@@ -4,8 +4,6 @@
   ansible.builtin.pacman:
     name: "{{ suckless_dependencies }}"
     state: present
-    update_cache: true
-  tags: [molecule-idempotence-notest]
 
 - name: Install tools.
   ansible.builtin.include_tasks:

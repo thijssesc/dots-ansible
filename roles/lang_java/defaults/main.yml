@@ -1,2 +1,9 @@
 ---
-lang_java_force: false
+java_force: false
+
+java_maven_repo: "{{ ansible_env.HOME }}/.cache/maven/repository"
+
+java_eclipse_git_dest: "{{ ansible_env.HOME }}/Software/eclipse.jdt.ls"
+java_debug_git_dest: "{{ ansible_env.HOME }}/Software/java-debug"
+java_test_git_dest: "{{ ansible_env.HOME }}/Software/vscode-java-test"
+java_decompiler_git_dest: "{{ ansible_env.HOME }}/Software/vscode-java-decompiler"

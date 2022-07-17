@@ -6,7 +6,7 @@
 
 - name: Get profile path from profiles.ini.
   ansible.builtin.command:
-    cmd: "egrep '^Path=.*\\.{{ item.name }}(-[0-9]+)?$' {{ firefox_profiles_path }}"
+    cmd: "egrep '^Path=.*\\.{{ item.name }}(-[0-9]+)?$' {{ firefox_config_path }}/profiles.ini"
   changed_when: false
   register: grep_result
 
@@ -16,25 +16,25 @@
 
 - name: Install custom css.
   ansible.builtin.copy:
-    dest: "{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}"
-    src: "{{ ansible_env.HOME }}/Software/SimpleFox/chrome"
+    dest: "{{ firefox_config_path }}/{{ profile_path }}"
+    src: "{{ firefox_simplefox_git_dest }}/chrome"
     remote_src: true
     mode: 0755
 
 - name: Check if prefs.js exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}/prefs.js"
+    path: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
   register: stat_result
 
 - name: Check if prefs.js exists (cont).
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}/prefs.js"
+    path: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
     state: "{{ 'touch' if not stat_result.stat.exists else 'file' }}"
     mode: 0644
 
 - name: Set user preferences.
   ansible.builtin.lineinfile:
-    dest: "{{ ansible_env.HOME }}/.mozilla/firefox/{{ profile_path }}/prefs.js"
+    dest: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
     regexp: '^user_pref\("{{ pref.name }}", \s*\S+?\);'
     # yamllint disable-line rule:line-length
     line: "user_pref(\"{{ pref.name }}\", {{ '\"%s\"' | format(pref.value) if item.value is string else (pref.value | lower) }});"

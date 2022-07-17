@@ -19,7 +19,7 @@
 - name: Install toast.
   ansible.builtin.get_url:
     # yamllint disable-line rule:line-length
-    url: "https://github.com/stepchowfun/toast/releases/download/v{{ toast_version }}/toast-{{ toast_arch }}-unknown-{{ toast_platform }}-gnu"
+    url: "{{ toast_repo_path }}/releases/download/v{{ toast_version }}/toast-{{ toast_arch }}-unknown-{{ toast_platform }}-gnu"
     dest: "{{ toast_bin_path }}"
     mode: 0755
   when: >

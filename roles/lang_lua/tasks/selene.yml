@@ -7,7 +7,7 @@
 
 - name: Check if selene binary exists.
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.local/bin/selene"
+    path: "{{ selene_bin_path }}"
   register: selene_check
 
 - name: Check selene version.

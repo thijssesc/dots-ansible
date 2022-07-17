@@ -8,3 +8,7 @@ neovim_dependencies:
   - ninja
   - tree-sitter
   - unzip
+
+neovim_git_dest: "{{ ansible_env.HOME }}/Software/neovim"
+neovim_plugin_dir: "{{ ansible_env.HOME }}/.config/nvim/plugin"
+neovim_bootstrap_config: "{{ ansible_env.HOME }}/.config/nvim/lua/thijssesc/packer.lua"
