@@ -4,6 +4,7 @@
   gather_facts: false
 
   vars:
+    java_maven_repo: "/root/.m2/repository"
     java_eclipse_git_dest: "/root/eclipse.jdt.ls"
     java_debug_git_dest: "/root/java-debug"
     java_test_git_dest: "/root/vscode-java-test"
