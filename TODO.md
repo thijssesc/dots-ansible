@@ -3,6 +3,8 @@
 **Testing:**
 - [ ] Full integration test with Vagrant
 - [ ] Write documentation
+- [ ] Optimize CI: Install python dependencies
+- [ ] Optimize CI: Pull docker image
 
 **Secrets:**
 - [ ] Clone GitHub repositories

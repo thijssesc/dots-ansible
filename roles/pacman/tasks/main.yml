@@ -87,6 +87,6 @@
 - name: Clear pacman cache.
   become: true
   ansible.builtin.shell:
-    cmd: set -o pipefail && yes | pacman -Scc
+    cmd: yes | pacman -Scc  # noqa risky-shell-pipe
   when: pacman_cache_files.files | length > 0
   changed_when: pacman_cache_files.files | length > 0
