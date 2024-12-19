@@ -21,7 +21,7 @@
 - name: Check if multilib repository is available.
   ansible.builtin.lineinfile:
     dest: /etc/pacman.conf
-    regexp: "^#\[multilib\]"
+    regexp: "^#\\[multilib\\]"
     line: "[multilib]"
     state: present
   check_mode: true
@@ -37,7 +37,7 @@
       become: true
       ansible.builtin.lineinfile:
         dest: /etc/pacman.conf
-        regexp: "^#\[multilib\]"
+        regexp: "^#\\[multilib\\]"
         line: "[multilib]"
         state: present
 
@@ -46,7 +46,7 @@
       ansible.builtin.lineinfile:
         dest: /etc/pacman.conf
         regexp: "^#Include = /etc/pacman.d/mirrorlist"
-        insertafter: "^\[multilib\]"
+        insertafter: "^\\[multilib\\]"
         line: "Include = /etc/pacman.d/mirrorlist"
         state: present
 

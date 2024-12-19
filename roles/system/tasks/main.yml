@@ -45,4 +45,3 @@
     state: present
   when: |
     system_user is defined and system_user | length > 0
-

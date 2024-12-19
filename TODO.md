@@ -3,6 +3,7 @@
 **Testing:**
 - [ ] Full integration test with Vagrant
 - [ ] Write documentation
+- [ ] Check why enabling services takes so long
 
 **Secrets:**
 - [/] Maven configuration

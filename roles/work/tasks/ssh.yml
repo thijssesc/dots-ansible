@@ -27,14 +27,14 @@
   check_mode: true
   register: general_ssh_available
   failed_when: >
-    general_ssh_available.failed 
-    and "does not exist" not in general_ssh_available.msg 
+    general_ssh_available.failed
+    and "does not exist" not in general_ssh_available.msg
 
 - name: General SSH configuration.
   community.general.ssh_config:
     user: "{{ work_ssh_user }}"
     host: "*"
-    add_keys_to_agent: yes
+    add_keys_to_agent: true
     state: present
   when: >
     (general_ssh_available.changed and general_ssh_available.msg == "line added")
@@ -56,4 +56,5 @@
   ansible.builtin.shell: >
     "ssh -T git@{{ item.name }}"
   loop: "{{ work_ssh_keys }}"
+  changed_when: false
   tags: [never]

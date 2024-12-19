@@ -35,7 +35,7 @@
 - name: Set user preferences.
   ansible.builtin.lineinfile:
     dest: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
-    regexp: "^user_pref\("{{ pref.name }}", \s*\S+?\);"
+    regexp: '^user_pref\("{{ pref.name }}", \s*\S+?\);'
     # yamllint disable-line rule:line-length
     line: "user_pref(\"{{ pref.name }}\", {{ '\"%s\"' | format(pref.value) if item.value is string else (pref.value | lower) }});"
     state: present
