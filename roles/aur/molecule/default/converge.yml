@@ -3,9 +3,10 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    aur_installed_packages:
-      - shellcheck-bin
-
   roles:
     - role: aur
+      vars:
+        aur_installed_packages:
+          - touchegg
+        aur_services:
+          - touchegg

@@ -3,9 +3,10 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    pacman_installed_packages:
-      - docker
-
   roles:
     - role: pacman
+      vars:
+        pacman_installed_packages:
+          - nginx
+        pacman_services:
+          - nginx

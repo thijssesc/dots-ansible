@@ -1,14 +1,8 @@
 ---
-neovim_force: false
+neovim_bootstrap_cmd: >
+  nvim --headless "+Lazy! sync" +quitall
+neovim_bootstrap_result: "{{ ansible_env.HOME }}/.local/share/nvim/lazy"
 
-neovim_dependencies:
-  - cmake
-  - curl
-  - gcc
-  - ninja
-  - tree-sitter
-  - unzip
-
-neovim_git_dest: "{{ ansible_env.HOME }}/Software/neovim"
-neovim_plugin_dir: "{{ ansible_env.HOME }}/.config/nvim/plugin"
-neovim_bootstrap_config: "{{ ansible_env.HOME }}/.config/nvim/lua/thijssesc/packer.lua"
+neovim_mason_cmd: >
+  nvim --headless "+MasonInstall shellcheck" +quitall
+neovim_mason_result: "{{ ansible_env.HOME }}/.local/share/nvim/mason"

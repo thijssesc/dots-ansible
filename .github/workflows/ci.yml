@@ -11,20 +11,50 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-    env:
-      FORCE_COLOR: 1
     steps:
-      - uses: actions/checkout@v3
-      - name: Download latest earthly
-        run: |
-          wget https://github.com/earthly/earthly/releases/download/v0.6.19/earthly-linux-amd64 \
-              -O /usr/local/bin/earthly
-          chmod +x /usr/local/bin/earthly
-      - name: Earthly version
-        run: earthly --version
-      - name: Run lint
-        run: earthly --ci +lint
-      - name: Run test
-        run: earthly --ci --allow-privileged +test
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+        with:
+          path: 'dots-ansible'
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install test dependencies.
+        run: pip3 install ansible-lint yamllint
+      - name: Lint code.
+        run: yamllint . && ansible-lint
+
+  molecule:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        role:
+          - aur
+          - dash
+          # - dots
+          # - firefox
+          # - neovim
+          - pacman
+          # - suckless
+          - system
+
+    steps:
+      - name: Check out the code base.
+        uses: actions/checkout@v3
+        with:
+          path: 'dots-ansible'
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule molecule-plugins[docker] docker passlib
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.role }}

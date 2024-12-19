@@ -1,24 +1,31 @@
 ---
+- name: Install git.
+  become: true
+  community.general.pacman:
+    name: git
+    state: present
+
 - name: Check if git exists.
   ansible.builtin.stat:
     path: "{{ dots_git_dest }}/.git"
-  register: result
+  register: git_exists
 
 - name: Clone/update dots.
   ansible.builtin.git:
-    clone: "{{ not result.stat.exists }}"
-    dest: "{{ (not result.stat.exists) | ternary(dots_git_dest + '/dots', dots_git_dest) }}"
-    repo: https://github.com/SCThijsse/dots.git
+    clone: "{{ not git_exists.stat.exists }}"
+    dest: "{{ (not git_exists.stat.exists) | ternary(dots_git_dest + '/dots', dots_git_dest) }}"
+    repo: "{{ dots_git_repo }}"
     version: master
     force: true
-  changed_when: not result.stat.exists
+  changed_when: not git_exists.stat.exists
 
 - name: Install dots.
+  when: not git_exists.stat.exists
   block:
     - name: Clone dots.
       ansible.builtin.git:
         dest: "{{ dots_git_dest }}/dots"
-        repo: https://github.com/SCThijsse/dots.git
+        repo: "{{ dots_git_repo }}"
         version: master
 
     - name: Find dots.
@@ -26,7 +33,7 @@
         paths: "{{ dots_git_dest }}/dots"
         file_type: any
         hidden: true
-      register: register
+      register: dot_files
 
     - name: Move dots.
       ansible.builtin.copy:
@@ -34,16 +41,9 @@
         src: "{{ item.path }}"
         dest: "{{ dots_git_dest }}"
         mode: "{{ '0755' if item.isdir else '0644' }}"
-      loop: "{{ register.files }}"
+      loop: "{{ dot_files.files }}"
 
     - name: Remove old dots folder.
       ansible.builtin.file:
         path: "{{ dots_git_dest }}/dots"
         state: absent
-  when: not result.stat.exists
-
-- name: Create .zprofile symlink.
-  ansible.builtin.file:
-    src: "{{ dots_git_dest }}/.profile"
-    dest: "{{ dots_git_dest }}/.zprofile"
-    state: link

@@ -1,7 +1,14 @@
 ---
-region: Europe
-city: Amsterdam
-locale: en_US
-hostname: archey
+system_region: Europe
+system_city: Amsterdam
+system_locale: en_US
+system_hostname: archey
+
+system_root_user: root
+system_root_pass: ""
+
+system_user: ""
+system_pass: ""
+system_groups: users
 
 system_installed_keys: []

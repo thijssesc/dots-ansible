@@ -1,6 +1,0 @@
----
-toast_version: 0.45.5
-toast_platform: linux
-toast_arch: x86_64
-toast_repo_path: https://github.com/stepchowfun/toast
-toast_bin_path: "/usr/local/bin/toast"

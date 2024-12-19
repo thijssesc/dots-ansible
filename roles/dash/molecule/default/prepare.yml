@@ -5,5 +5,5 @@
 
   tasks:
     - name: Update pacman cache.
-      ansible.builtin.pacman:
+      community.general.pacman:
         update_cache: true

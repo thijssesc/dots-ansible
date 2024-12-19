@@ -3,10 +3,9 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    suckless_git_dest: /root/suckless
-    suckless_installed_tools:
-      - dmenu
-
   roles:
     - role: suckless
+      vars:
+        suckless_git_dest: /root/suckless
+        suckless_installed_tools:
+          - dmenu

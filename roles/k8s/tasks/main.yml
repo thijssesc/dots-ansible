@@ -1,4 +1,0 @@
----
-- ansible.builtin.include_tasks: helm.yml
-- ansible.builtin.include_tasks: kubectl.yml
-- ansible.builtin.include_tasks: minikube.yml

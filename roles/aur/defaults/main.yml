@@ -1,12 +1,4 @@
 ---
-aur_installed_packages:
-  - catppuccin-gtk-theme
-  - google-chrome
-  - htop-vim
-  - intellij-idea-ultimate-edition
-  - intellij-idea-ultimate-edition-jre
-  - nerd-fonts-roboto-mono
-  - slack-desktop
-  - touchegg
-  - yay
-aur_uninstalled_packages: []
+aur_installed_packages: []
+
+aur_services: []

@@ -20,3 +20,4 @@ firefox_profiles:
     prefs: "{{ firefox_general_prefs }}"
 
 firefox_simplefox_git_dest: "{{ ansible_env.HOME }}/Software/SimpleFox"
+firefox_simplefox_git_repo: "https://github.com/thijssesc/SimpleFox.git"

@@ -17,22 +17,6 @@
       tags: [never, dash]
     - role: firefox
       tags: [never, firefox]
-    - role: k8s
-      tags: [never, k8s]
-    - role: lang_go
-      tags: [never, go]
-    - role: lang_java
-      tags: [never, java]
-    - role: lang_javascript
-      tags: [never, javascript]
-    - role: lang_lua
-      tags: [never, lua]
-    - role: lang_python
-      tags: [never, python]
-    - role: lang_rust
-      tags: [never, rust]
-    - role: lang_shell
-      tags: [never, shell]
     - role: neovim
       tags: [never, neovim]
     - role: suckless

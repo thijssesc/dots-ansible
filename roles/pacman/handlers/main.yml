@@ -1,13 +1,13 @@
 ---
-- name: get mirrorlist
+- name: Get mirrorlist.
   become: true
   ansible.builtin.get_url:
     dest: /etc/pacman.d/mirrorlist
     url: https://archlinux.org/mirrorlist/?country=NL&protocol=https&ip_version=4
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
 
-- name: update cache
-  ansible.builtin.pacman:
+- name: Update pacman cache.
+  community.general.pacman:
     update_cache: true

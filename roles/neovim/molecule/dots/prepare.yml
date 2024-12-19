@@ -7,3 +7,8 @@
     - name: Update pacman cache.
       community.general.pacman:
         update_cache: true
+
+  roles:
+    - role: dots
+      vars:
+        dots_git_dest: /root

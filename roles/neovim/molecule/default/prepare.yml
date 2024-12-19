@@ -3,14 +3,19 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    dots_git_dest: /root
-
   pre_tasks:
     - name: Update pacman cache.
-      ansible.builtin.pacman:
+      community.general.pacman:
         update_cache: true
 
-  roles:
-    - role: git
-    - role: dots
+    - name: Ensure neovim config folder exists.
+      become: true
+      ansible.builtin.file:
+        path: /root/.config/nvim
+        state: directory
+        mode: "0755"
+
+    - name: Copy test nvim config.
+      ansible.builtin.copy:
+        src: files/init.lua
+        dest: /root/.config/nvim/init.lua

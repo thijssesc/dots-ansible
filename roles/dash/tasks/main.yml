@@ -1,7 +1,7 @@
 ---
 - name: Install dash.
   become: true
-  ansible.builtin.pacman:
+  community.general.pacman:
     name: dash
     state: present
 
@@ -10,7 +10,7 @@
   ansible.builtin.file:
     path: /etc/pacman.d/hooks
     state: directory
-    mode: 0755
+    mode: "0755"
     group: root
     owner: root
 
@@ -28,7 +28,7 @@
   ansible.builtin.copy:
     src: dash.hook
     dest: /etc/pacman.d/hooks/dash.hook
-    mode: 0644
+    mode: "0644"
     group: root
     owner: root
 
@@ -38,6 +38,6 @@
     src: /usr/bin/dash
     dest: /usr/bin/sh
     state: link
-    mode: 0777
+    mode: "0777"
     group: root
     owner: root

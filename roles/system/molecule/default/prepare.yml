@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
 
-  roles:
-    - role: pacman
-      vars:
-        pacman_installed_packages: [openssh, zsh]
+  pre_tasks:
+    - name: Update pacman cache.
+      community.general.pacman:
+        update_cache: true

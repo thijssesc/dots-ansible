@@ -1,7 +1,7 @@
 ---
 - name: Install suckless build dependencies.
   become: true
-  ansible.builtin.pacman:
+  community.general.pacman:
     name: "{{ suckless_dependencies }}"
     state: present
 
@@ -12,10 +12,3 @@
   loop_control:
     loop_var: tool
   when: suckless_installed_tools | length > 0
-
-- name: Uninstall tools.
-  ansible.builtin.file:
-    path: /usr/local/bin/{{ item }}
-    state: absent
-  loop: "{{ suckless_uninstalled_tools }}"
-  when: suckless_uninstalled_tools | length > 0

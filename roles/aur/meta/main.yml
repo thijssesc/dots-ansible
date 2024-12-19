@@ -2,7 +2,7 @@
 dependencies: []
 
 galaxy_info:
-  author: scthijsse
+  author: thisless
   description: Personal aur packages installer.
   license: "MIT"
   min_ansible_version: "2.4"

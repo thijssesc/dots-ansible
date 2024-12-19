@@ -1,26 +1,33 @@
 ---
+- name: Install git.
+  become: true
+  community.general.pacman:
+    name: git
+    state: present
+
 - name: Install firefox.
   become: true
-  ansible.builtin.pacman:
+  community.general.pacman:
     name: "{{ firefox_package }}"
     state: present
 
 - name: Clone SimpleFox.
   ansible.builtin.git:
-    repo: https://github.com/SCThijsse/SimpleFox.git
     dest: "{{ firefox_simplefox_git_dest }}"
+    repo: "{{ firefox_simplefox_git_repo }}"
     version: master
 
 - name: Add remote upstream to git repository.  # noqa command-instead-of-module
   ansible.builtin.command:
     cmd: "git remote add upstream https://github.com/migueravila/SimpleFox"
     chdir: "{{ firefox_simplefox_git_dest }}"
-  register: add_result
-  changed_when: add_result.rc == 0
+  register: simplefox_upstream
+  changed_when: simplefox_upstream.rc == 0
   failed_when:
-    - add_result.rc != 0
-    - add_result.stderr | default('') is not search("remote .* already exists")
+    - simplefox_upstream.rc != 0
+    - simplefox_upstream.stderr | default('') is not search("remote .* already exists")
 
-- ansible.builtin.include_tasks:
+- name: Make profiles.
+  ansible.builtin.include_tasks:
     file: profile.yml
   loop: "{{ firefox_profiles }}"

@@ -1,7 +1,4 @@
 ---
 pacman_installed_packages: []
-pacman_uninstalled_packages: []
 
-pacman_services:
-  - docker
-  - bluetooth
+pacman_services: []

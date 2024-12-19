@@ -1,31 +1,27 @@
 ---
-- name: Install neovim build dependencies.
+- name: Install neovim.
   become: true
-  ansible.builtin.pacman:
-    name: "{{ neovim_dependencies }}"
+  community.general.pacman:
+    name: neovim
     state: present
 
-- name: Clone neovim.
-  ansible.builtin.git:
-    dest: "{{ neovim_git_dest }}"
-    repo: "https://github.com/neovim/neovim.git"
-    version: master
-    force: true
-  register: neovim
-  changed_when: neovim.changed or neovim_force
-  notify:
-    - build neovim
-    # - remove plugins
-    # - install neovim plugins
+- name: Install plugin dependencies.
+  become: true
+  community.general.pacman:
+    name:
+     - curl
+     - git
+     - ripgrep
+     - tar
+     - unzip
+    state: present
 
-- name: Flush handlers.
-  ansible.builtin.meta: flush_handlers
+- name: Install neovim plugins.
+  ansible.builtin.command:
+    cmd: "{{ neovim_bootstrap_cmd }}"
+    creates: "{{ neovim_bootstrap_result }}"
 
-- name: Get install path of neovim.
-  ansible.builtin.stat:
-    path: /usr/local/bin/nvim
-  register: result
-
-- name: Ensure neovim is installed.
-  ansible.builtin.assert:
-    that: result.stat.exists
+- name: Install Mason plugins.
+  ansible.builtin.command:
+    cmd: "{{ neovim_mason_cmd }}"
+    creates: "{{ neovim_mason_result }}"

@@ -13,13 +13,14 @@
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     create: true
     validate: 'visudo -cf %s'
-    mode: 0750
+    mode: "0750"
 
-- name: Update pacman cache.
+- name: Install base-devel.
   become: true
-  ansible.builtin.pacman:
-    update_cache: true
-  tags: [molecule-idempotence-notest]
+  community.general.pacman:
+    name: base-devel
+    state: present
+  notify: Update pacman cache.
 
 - name: Install yay.
   become: true
@@ -38,19 +39,10 @@
     use: yay
   when: aur_installed_packages | length > 0
 
-- name: Uninstall aur packages.
-  become: true
-  become_user: aur_builder
-  kewlfft.aur.aur:
-    name: "{{ aur_uninstalled_packages }}"
-    state: absent
-    use: yay
-  when: aur_uninstalled_packages | length > 0
-
-- name: Enable touchegg service.
+- name: Enable services.
   become: true
   ansible.builtin.service:
     enabled: true
     state: started
-    name: touchegg
-  when: ('touchegg' in aur_installed_packages)
+    name: "{{ item }}"
+  loop: "{{ aur_services }}"

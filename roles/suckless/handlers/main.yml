@@ -1,21 +1,21 @@
 ---
-- name: find patches
+- name: Find patches.
   ansible.builtin.find:
     paths: "{{ suckless_git_dest }}/{{ suckless_tool }}/patches"
-  register: patches
+  register: found_patches
 
-- name: apply patches
+- name: Apply patches.
   ansible.posix.patch:
     basedir: "{{ suckless_git_dest }}/{{ suckless_tool }}"
     src: "{{ item }}"
     remote_src: true
     strip: 1
     state: present
-  loop: "{{ patches.files | map(attribute='path') | sort }}"
+  loop: "{{ found_patches.files | map(attribute='path') | sort }}"
 
-- name: build tool
+- name: Build tool.
   become: true
-  ansible.builtin.make:
+  community.general.make:
     chdir: "{{ suckless_git_dest }}/{{ suckless_tool }}"
     target: "{{ item }}"
   loop:

@@ -8,29 +8,29 @@
   ansible.builtin.command:
     cmd: "egrep '^Path=.*\\.{{ item.name }}(-[0-9]+)?$' {{ firefox_config_path }}/profiles.ini"
   changed_when: false
-  register: grep_result
+  register: profile
 
 - name: Set profile path from profiles.ini.
   ansible.builtin.set_fact:
-    profile_path: "{{ grep_result.stdout | split('=') | last }}"
+    profile_path: "{{ profile.stdout | split('=') | last }}"
 
 - name: Install custom css.
   ansible.builtin.copy:
     dest: "{{ firefox_config_path }}/{{ profile_path }}"
     src: "{{ firefox_simplefox_git_dest }}/chrome"
     remote_src: true
-    mode: 0755
+    mode: "0755"
 
 - name: Check if prefs.js exists.
   ansible.builtin.stat:
     path: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
-  register: stat_result
+  register: prefs
 
 - name: Check if prefs.js exists (cont).
   ansible.builtin.file:
     path: "{{ firefox_config_path }}/{{ profile_path }}/prefs.js"
-    state: "{{ 'touch' if not stat_result.stat.exists else 'file' }}"
-    mode: 0644
+    state: "{{ 'touch' if not prefs.stat.exists else 'file' }}"
+    mode: "0644"
 
 - name: Set user preferences.
   ansible.builtin.lineinfile:

@@ -9,11 +9,12 @@ suckless_installed_tools:
     - st
     - sxiv
     - tabbed
-suckless_uninstalled_tools: []
 
 suckless_git_dest: "{{ ansible_env.HOME }}/Software/suckless"
+suckless_git_repo: "https://github.com/thijssesc"
 
 suckless_dependencies:
+    - git
     - imlib2
     - libexif
     - libx11

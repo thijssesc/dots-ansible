@@ -1,8 +1,0 @@
----
-- name: Install unzip.
-  become: true
-  ansible.builtin.pacman:
-    name: unzip
-    state: present
-
-- ansible.builtin.include_tasks: shellcheck.yml

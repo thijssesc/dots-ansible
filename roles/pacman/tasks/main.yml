@@ -5,7 +5,7 @@
     dest: /etc/pacman.d/mirrorlist
     line: '## Netherlands'
     state: present
-  notify: get mirrorlist
+  notify: Get mirrorlist.
 
 - name: Ensure mirrorlist is updated.
   ansible.builtin.meta: flush_handlers
@@ -16,8 +16,9 @@
     path: /etc/pacman.d/mirrorlist
     regexp: '^#Server ='
     replace: 'Server ='
-  notify: update cache
+  notify: Update pacman cache.
 
+# TODO: Only enable when multilib is available and put in in a block.
 - name: Enable multilib repository.
   become: true
   ansible.builtin.lineinfile:
@@ -26,8 +27,7 @@
     insertafter: '^#\\[multilib\\]'
     line: '[multilib]'
     state: present
-  tags: [molecule-notest]
-  notify: update cache
+  notify: Update pacman cache.
 
 - name: Enable multilib repository (cont).
   become: true
@@ -37,8 +37,7 @@
     insertafter: '^\\[multilib\\]'
     line: 'Include = /etc/pacman.d/mirrorlist'
     state: present
-  tags: [molecule-notest]
-  notify: update cache
+  notify: Update pacman cache.
 
 - name: Enable ilovecandy setting.
   become: true
@@ -52,26 +51,12 @@
 - name: Ensure cache is updated.
   ansible.builtin.meta: flush_handlers
 
-- name: Install virtualbox-host-modules-arch packages.
-  become: true
-  ansible.builtin.pacman:
-    name: virtualbox-host-modules-arch
-    state: present
-  when: ('virtualbox-host-modules-arch' in pacman_installed_packages)
-
 - name: Install pacman packages.
   become: true
-  ansible.builtin.pacman:
+  community.general.pacman:
     name: "{{ pacman_installed_packages }}"
     state: present
   when: pacman_installed_packages | length > 0
-
-- name: Uninstall pacman packages.
-  become: true
-  ansible.builtin.pacman:
-    name: "{{ pacman_uninstalled_packages }}"
-    state: absent
-  when: pacman_uninstalled_packages | length > 0
 
 - name: Enable services.
   become: true
@@ -79,6 +64,4 @@
     enabled: true
     state: started
     name: "{{ item }}"
-  when: item in pacman_installed_packages
-  tags: [molecule-notest]
   loop: "{{ pacman_services }}"

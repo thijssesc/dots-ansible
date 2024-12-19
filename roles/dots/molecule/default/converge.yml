@@ -3,8 +3,7 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    dots_git_dest: /root
-
   roles:
     - role: dots
+      vars:
+        dots_git_dest: /root

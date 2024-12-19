@@ -6,31 +6,31 @@
 - name: Clone the tool.
   ansible.builtin.git:
     dest: "{{ suckless_git_dest }}/{{ suckless_tool }}"
-    repo: "https://github.com/SCThijsse/{{ suckless_tool }}.git"
+    repo: "{{ suckless_git_repo }}/{{ suckless_tool }}.git"
     version: master
     update: "{{ suckless_redo }}"
     force: "{{ suckless_redo }}"
   notify:
-    - find patches
-    - apply patches
-    - build tool
+    - Find patches.
+    - Apply patches.
+    - Build tool.
 
 - name: Add remote upstream to git repository.  # noqa command-instead-of-module
   ansible.builtin.command:
     cmd: "git remote add upstream https://git.suckless.org/{{ suckless_tool }}"
     chdir: "{{ suckless_git_dest }}/{{ suckless_tool }}"
-  register: add_result
-  changed_when: add_result.rc == 0
+  register: tool_upstream
+  changed_when: tool_upstream.rc == 0
   failed_when:
-    - add_result.rc != 0
-    - add_result.stderr | default('') is not search("remote .* already exists")
+    - tool_upstream.rc != 0
+    - tool_upstream.stderr | default('') is not search("remote .* already exists")
 
 - name: Ensure /usr/share/applications exists.
   become: true
   ansible.builtin.file:
     path: /usr/share/applications
     state: directory
-    mode: 0755
+    mode: "0755"
   when: suckless_tool == 'sxiv'
 
 - name: Find & apply patches for the tool.
@@ -39,11 +39,11 @@
 - name: Get install path of the tool.
   ansible.builtin.stat:
     path: "/usr/local/bin/{{ suckless_tool }}"
-  register: result
+  register: is_installed
 
 - name: Ensure the tool is installed.
   ansible.builtin.assert:
-    that: result.stat.exists
+    that: is_installed.stat.exists
 
 - name: Unset current tool.
   ansible.builtin.set_fact:

@@ -3,14 +3,12 @@
   hosts: all
   gather_facts: false
 
-  vars:
-    root_user: root
-    root_pass: toor
-    system_user: user
-    system_pass: resu
-    system_installed_keys:
-      - work
-      - rsa
-
   roles:
     - role: system
+      vars:
+        system_root_user: root
+        system_root_pass: ""
+        system_user: user
+        system_pass: resu
+        system_installed_keys:
+          - rsa
