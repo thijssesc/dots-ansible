@@ -9,6 +9,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -57,7 +58,7 @@ jobs:
           python-version: "3.x"
       - name: Install test dependencies.
         run: pip3 install ansible molecule molecule-plugins[docker] docker passlib
-      - name: foo
+      - name: Setup ansible-vault password file.
         run: printf '%s' "${{ secrets.ANSIBLE_VAULT }}" > "$GITHUB_WORKSPACE/.ansible_vault"
       - name: Run Molecule tests.
         working-directory: dots-ansible/roles/${{ matrix.role }}
