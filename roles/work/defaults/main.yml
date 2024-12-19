@@ -1,0 +1,5 @@
+---
+work_github_repositories: []
+
+work_ssh_keys: []
+work_ssh_user: "{{ ansible_user }}"

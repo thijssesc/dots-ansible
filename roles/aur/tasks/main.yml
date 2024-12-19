@@ -12,7 +12,7 @@
     path: "/etc/sudoers.d/11-aur-{{ aur_user }}"
     line: "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: true
-    validate: 'visudo -cf %s'
+    validate: "visudo -cf %s"
     mode: "0750"
 
 - name: Install base-devel.

@@ -1,0 +1,59 @@
+---
+- name: Install openssh.
+  become: true
+  community.general.pacman:
+    name: openssh
+    state: present
+
+- name: Ensure ~/.ssh directory exists.
+  ansible.builtin.file:
+    path: ~/.ssh
+    state: directory
+    mode: "0700"
+
+- name: Copy SSH keys.
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: ~/.ssh/
+    mode: "0600"
+  with_fileglob: "files/ssh/id_*"
+
+- name: Check if general SSH configuration is already there.
+  ansible.builtin.lineinfile:
+    dest: ~/.ssh/config
+    regexp: "^Host \\*"
+    line: "Host *"
+    state: present
+  check_mode: true
+  register: general_ssh_available
+  failed_when: >
+    general_ssh_available.failed 
+    and "does not exist" not in general_ssh_available.msg 
+
+- name: General SSH configuration.
+  community.general.ssh_config:
+    user: "{{ work_ssh_user }}"
+    host: "*"
+    add_keys_to_agent: yes
+    state: present
+  when: >
+    (general_ssh_available.changed and general_ssh_available.msg == "line added")
+    or "does not exist" in general_ssh_available.msg
+
+- name: Host SSH configuration.
+  community.general.ssh_config:
+    user: "{{ work_ssh_user }}"
+    host: "{{ item.name }}"
+    hostname: "{{ item.host }}"
+    remote_user: "{{ item.user }}"
+    identity_file: "~/.ssh/id_{{ item.name }}"
+    identities_only: true
+    state: present
+  when: work_ssh_keys | length > 0
+  loop: "{{ work_ssh_keys }}"
+
+- name: Test SSH connectivity.
+  ansible.builtin.shell: >
+    "ssh -T git@{{ item.name }}"
+  loop: "{{ work_ssh_keys }}"
+  tags: [never]

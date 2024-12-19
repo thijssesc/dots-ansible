@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  pre_tasks:
+    - name: Update pacman cache.
+      community.general.pacman:
+        update_cache: true

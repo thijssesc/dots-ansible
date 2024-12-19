@@ -7,5 +7,3 @@
     - role: system
       vars:
         system_user: user
-        system_installed_keys:
-          - rsa

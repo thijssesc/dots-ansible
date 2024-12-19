@@ -1,0 +1,14 @@
+---
+- name: Ensure the destination folders exists.
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    recurse: true
+  loop: "{{ work_github_repositories }}"
+
+- name: Clone GitHub repositories.
+  ansible.builtin.git:
+    dest: "{{ item.dest }}"
+    repo: "{{ item.repo }}"
+    version: "{{ item.version }}"
+  loop: "{{ work_github_repositories }}"

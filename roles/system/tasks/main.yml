@@ -46,18 +46,3 @@
   when: |
     system_user is defined and system_user | length > 0
 
-- name: Install openssh.
-  become: true
-  community.general.pacman:
-    name: openssh
-    state: present
-  when: system_installed_keys | length > 0
-
-- name: System user ssh keys.
-  ansible.builtin.user:
-    name: "{{ system_user }}"
-    generate_ssh_key: true
-    ssh_key_bits: 2048
-    ssh_key_file: ".ssh/{{ item }}"
-  loop: "{{ system_installed_keys }}"
-  when: system_installed_keys | length > 0

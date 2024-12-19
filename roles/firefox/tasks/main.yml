@@ -25,7 +25,7 @@
   changed_when: simplefox_upstream.rc == 0
   failed_when:
     - simplefox_upstream.rc != 0
-    - simplefox_upstream.stderr | default('') is not search("remote .* already exists")
+    - simplefox_upstream.stderr | default("") is not search("remote .* already exists")
 
 - name: Make profiles.
   ansible.builtin.include_tasks:

@@ -18,9 +18,9 @@
   become: true
   ansible.builtin.lineinfile:
     dest: /etc/pacman.conf
-    regexp: '^HookDir'
-    insertafter: '^#HookDir'
-    line: 'HookDir      = /etc/pacman.d/hooks'
+    regexp: "^HookDir"
+    insertafter: "^#HookDir"
+    line: "HookDir      = /etc/pacman.d/hooks"
     state: present
 
 - name: Copy dash.hook.

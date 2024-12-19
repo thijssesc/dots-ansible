@@ -21,3 +21,5 @@
       tags: [never, neovim]
     - role: suckless
       tags: [never, suckless]
+    - role: work
+      tags: [never, work]

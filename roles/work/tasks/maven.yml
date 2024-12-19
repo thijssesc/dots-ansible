@@ -1,0 +1,22 @@
+---
+- name: Install Java & Maven.
+  become: true
+  community.general.pacman:
+    name:
+      - jdk17-openjdk
+      - jdk21-openjdk
+      - maven
+    state: present
+
+- name: Ensure ~/.config/maven directory exists
+  ansible.builtin.file:
+    path: ~/.config/maven
+    state: directory
+    mode: "0755"
+
+- name: Copy maven configuration.
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: ~/.config/maven/
+    mode: "0644"
+  with_fileglob: "files/maven/*.xml"

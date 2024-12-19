@@ -23,7 +23,7 @@
   changed_when: tool_upstream.rc == 0
   failed_when:
     - tool_upstream.rc != 0
-    - tool_upstream.stderr | default('') is not search("remote .* already exists")
+    - tool_upstream.stderr | default("") is not search("remote .* already exists")
 
 - name: Ensure /usr/share/applications exists.
   become: true
@@ -31,7 +31,7 @@
     path: /usr/share/applications
     state: directory
     mode: "0755"
-  when: suckless_tool == 'sxiv'
+  when: suckless_tool == "sxiv"
 
 - name: Find & apply patches for the tool.
   ansible.builtin.meta: flush_handlers

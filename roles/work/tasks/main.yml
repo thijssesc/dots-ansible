@@ -1,0 +1,16 @@
+---
+- name: Secrets.
+  ansible.builtin.include_tasks:
+    file: secrets.yml
+
+- name: Maven configuration.
+  ansible.builtin.include_tasks:
+    file: maven.yml
+
+- name: SSH configuration.
+  ansible.builtin.include_tasks:
+    file: ssh.yml
+
+- name: GitHub repositories.
+  ansible.builtin.include_tasks:
+    file: github.yml
