@@ -19,3 +19,4 @@
       ansible.builtin.copy:
         src: files/init.lua
         dest: /root/.config/nvim/init.lua
+        mode: "0644"

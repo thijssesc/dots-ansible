@@ -6,10 +6,10 @@
     create_home: true
     group: wheel
 
-- name: Allow the 'aur_builder' user to run 'sudo pacman' without a password.
+- name: Allow the aur user user to run 'sudo pacman' without a password.
   become: true
   ansible.builtin.lineinfile:
-    path: /etc/sudoers.d/11-install-aur_builder
+    path: "/etc/sudoers.d/11-aur-{{ aur_user }}"
     line: "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: true
     validate: 'visudo -cf %s'
@@ -46,3 +46,17 @@
     state: started
     name: "{{ item }}"
   loop: "{{ aur_services }}"
+
+- name: Check if yay cache is empty.
+  ansible.builtin.find:
+    paths: "{{ aur_cache }}"
+    file_type: file
+  register: yay_cache_files
+  changed_when: yay_cache_files.files | length > 0
+
+- name: Clear yay cache.
+  become: true
+  ansible.builtin.shell:
+    cmd: set -o pipefail && yes | yay -Sc
+  when: yay_cache_files.files | length > 0
+  changed_when: yay_cache_files.files | length > 0

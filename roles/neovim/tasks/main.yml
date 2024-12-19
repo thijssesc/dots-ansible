@@ -9,11 +9,11 @@
   become: true
   community.general.pacman:
     name:
-     - curl
-     - git
-     - ripgrep
-     - tar
-     - unzip
+      - curl
+      - git
+      - ripgrep
+      - tar
+      - unzip
     state: present
 
 - name: Install neovim plugins.

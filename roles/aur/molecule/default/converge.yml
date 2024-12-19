@@ -10,3 +10,4 @@
           - touchegg
         aur_services:
           - touchegg
+        aur_cache: /var/cache/yay

@@ -27,7 +27,7 @@
     regexp: "^{{ system_hostname }}"
     line: "{{ system_hostname }}"
     state: present
-  tags: [ molecule-notest ]
+  tags: [molecule-notest]
 
 - name: Install zsh.
   become: true
