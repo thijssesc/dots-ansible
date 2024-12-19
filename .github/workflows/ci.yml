@@ -58,7 +58,7 @@ jobs:
         run: pip3 install ansible molecule molecule-plugins[docker] docker passlib
       - name: Run Molecule tests.
         working-directory: dots-ansible/roles/${{ matrix.role }}
-        run: molecule test
+        run: molecule test -- -vv
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
