@@ -65,4 +65,5 @@ pacman_services:
   - docker
   - bluetooth
 
+system_user: sjoerd
 system_groups: docker,users,wheel

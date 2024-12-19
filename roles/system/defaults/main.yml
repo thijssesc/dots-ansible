@@ -5,7 +5,6 @@ system_locale: en_US
 system_hostname: archey
 
 system_user: ""
-system_pass: ""
 system_groups: users
 
 system_installed_keys: []
