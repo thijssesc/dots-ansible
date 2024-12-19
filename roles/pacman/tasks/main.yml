@@ -18,33 +18,44 @@
     replace: 'Server ='
   notify: Update pacman cache.
 
-# TODO: Only enable when multilib is available and put in in a block.
-- name: Enable multilib repository.
-  become: true
+- name: Check if multilib repository is available.
   ansible.builtin.lineinfile:
     dest: /etc/pacman.conf
-    regexp: '^\\[multilib\\]'
-    insertafter: '^#\\[multilib\\]'
+    regexp: '^#\[multilib\]'
     line: '[multilib]'
     state: present
-  notify: Update pacman cache.
+  check_mode: true
+  register: multilib_available
 
-- name: Enable multilib repository (cont).
-  become: true
-  ansible.builtin.lineinfile:
-    dest: /etc/pacman.conf
-    regexp: '^Include = /etc/pacman.d/mirrorlist'
-    insertafter: '^\\[multilib\\]'
-    line: 'Include = /etc/pacman.d/mirrorlist'
-    state: present
+- name: Enable multilib repository.
+  when: >
+    multilib_available.changed
+    and multilib_available.msg == 'line replaced'
   notify: Update pacman cache.
+  block:
+    - name: Enable multilib repository header.
+      become: true
+      ansible.builtin.lineinfile:
+        dest: /etc/pacman.conf
+        regexp: '^#\[multilib\]'
+        line: '[multilib]'
+        state: present
+
+    - name: Enable multilib repository options.
+      become: true
+      ansible.builtin.lineinfile:
+        dest: /etc/pacman.conf
+        regexp: '^#Include = /etc/pacman.d/mirrorlist'
+        insertafter: '^\[multilib\]'
+        line: 'Include = /etc/pacman.d/mirrorlist'
+        state: present
 
 - name: Enable ilovecandy setting.
   become: true
   ansible.builtin.lineinfile:
     dest: /etc/pacman.conf
     regexp: '^ILoveCandy'
-    insertafter: '^NoProgressBar'
+    insertafter: '^#UseSyslog'
     line: 'ILoveCandy'
     state: present
 

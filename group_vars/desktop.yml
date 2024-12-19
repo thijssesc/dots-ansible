@@ -6,8 +6,10 @@ aur_installed_packages:
   - intellij-idea-ultimate-edition
   - intellij-idea-ultimate-edition-jre
   - nerd-fonts-roboto-mono
+  - nvm
   - slack-desktop
   - yay
+aur_user: sjoerd
 
 pacman_installed_packages:
   - alsa-utils
@@ -36,7 +38,6 @@ pacman_installed_packages:
   - minikube
   - mpv
   - nnn
-  - nvm
   - openssh
   - otf-font-awesome
   - pass

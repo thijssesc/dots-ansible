@@ -2,3 +2,5 @@
 aur_installed_packages: []
 
 aur_services: []
+
+aur_user: aur_builder

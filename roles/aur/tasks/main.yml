@@ -1,8 +1,8 @@
 ---
-- name: Create the 'aur_builder' user.
+- name: Create the aur user.
   become: true
   ansible.builtin.user:
-    name: aur_builder
+    name: "{{ aur_user }}"
     create_home: true
     group: wheel
 
@@ -10,7 +10,7 @@
   become: true
   ansible.builtin.lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
-    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    line: "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman"
     create: true
     validate: 'visudo -cf %s'
     mode: "0750"
@@ -20,11 +20,11 @@
   community.general.pacman:
     name: base-devel
     state: present
-  notify: Update pacman cache.
+  notify: Update pacman cache for aur.
 
 - name: Install yay.
   become: true
-  become_user: aur_builder
+  become_user: "{{ aur_user }}"
   kewlfft.aur.aur:
     name: yay
     state: present
@@ -32,7 +32,7 @@
 
 - name: Install aur packages.
   become: true
-  become_user: aur_builder
+  become_user: "{{ aur_user }}"
   kewlfft.aur.aur:
     name: "{{ aur_installed_packages }}"
     state: present

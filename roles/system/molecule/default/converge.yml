@@ -6,8 +6,6 @@
   roles:
     - role: system
       vars:
-        system_root_user: root
-        system_root_pass: ""
         system_user: user
         system_pass: resu
         system_installed_keys:

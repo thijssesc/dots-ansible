@@ -29,25 +29,18 @@
     state: present
   tags: [ molecule-notest ]
 
-- name: Root user.
-  ansible.builtin.user:
-    name: "{{ system_root_user }}"
-    password: "{{ system_root_pass | password_hash('sha512') }}"
-    state: present
-  when: |
-    system_root_user is defined and system_root_user | length > 0
-    and system_root_pass is defined and system_root_pass | length > 0
-
 - name: Install zsh.
   become: true
   community.general.pacman:
     name: zsh
     state: present
+  when: |
+    system_user is defined and system_user | length > 0
+    and system_pass is defined and system_pass | length > 0
 
 - name: System user.
   ansible.builtin.user:
     name: "{{ system_user }}"
-    password: "{{ system_pass | password_hash('sha512') }}"
     shell: /bin/zsh
     groups: "{{ system_groups }}"
     state: present
@@ -61,6 +54,7 @@
   community.general.pacman:
     name: openssh
     state: present
+  when: system_installed_keys | length > 0
 
 - name: System user ssh keys.
   ansible.builtin.user:

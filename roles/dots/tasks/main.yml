@@ -47,3 +47,9 @@
       ansible.builtin.file:
         path: "{{ dots_git_dest }}/dots"
         state: absent
+
+- name: Create .zprofile symlink.
+  ansible.builtin.file:
+    src: "{{ dots_git_dest }}/.profile"
+    dest: "{{ dots_git_dest }}/.zprofile"
+    state: link

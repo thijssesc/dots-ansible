@@ -1,4 +1,5 @@
 ---
-- name: Update pacman cache.
+- name: Update pacman cache for aur.
+  become: true
   community.general.pacman:
     update_cache: true
