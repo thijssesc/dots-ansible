@@ -10,10 +10,6 @@ on:
   pull_request:
     branches: [master]
 
-defaults:
-  run:
-    working-directory: 'dots-ansible'
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -29,8 +25,10 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible-lint yamllint
       - name: Lint code with yamllint.
+        working-directory: dots-ansible
         run: yamllint .
       - name: Lint code with ansible-lint.
+        working-directory: dots-ansible
         run: ansible-lint
 
   molecule:
@@ -59,8 +57,8 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible molecule molecule-plugins[docker] docker passlib
       - name: Run Molecule tests.
+        working-directory: dots-ansible/roles/${{ matrix.role }}
         run: molecule test
-        working-directory: roles/${{ matrix.role }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
