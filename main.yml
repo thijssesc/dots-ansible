@@ -7,12 +7,12 @@
     - role: system
       tags: [never, system]
       become: true
-    - role: dots
-      tags: [never, dots]
     - role: pacman
       tags: [never, pacman]
     - role: aur
       tags: [never, aur]
+    - role: dots
+      tags: [never, dots]
     - role: dash
       tags: [never, dash]
     - role: firefox

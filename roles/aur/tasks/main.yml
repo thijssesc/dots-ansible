@@ -47,16 +47,7 @@
     name: "{{ item }}"
   loop: "{{ aur_services }}"
 
-- name: Check if yay cache is empty.
-  ansible.builtin.find:
-    paths: "{{ aur_cache }}"
-    file_type: file
-  register: yay_cache_files
-  changed_when: yay_cache_files.files | length > 0
-
 - name: Clear yay cache.
-  become: true
   ansible.builtin.shell:
-    cmd: set -o pipefail && yes | yay -Sc
-  when: yay_cache_files.files | length > 0
-  changed_when: yay_cache_files.files | length > 0
+    cmd: yes | yay -Sc  # noqa risky-shell-pipe
+  changed_when: false

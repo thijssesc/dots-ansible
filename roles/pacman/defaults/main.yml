@@ -2,3 +2,5 @@
 pacman_installed_packages: []
 
 pacman_services: []
+
+pacman_user: "{{ ansible_user }}"

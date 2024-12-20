@@ -1,4 +1,6 @@
 ---
+ansible_user: sjoerd
+
 aur_installed_packages:
   - catppuccin-gtk-theme
   - google-chrome
@@ -12,7 +14,6 @@ aur_installed_packages:
   - yay
 aur_services:
   - touchegg
-aur_user: sjoerd
 
 pacman_installed_packages:
   - alsa-utils
@@ -65,11 +66,8 @@ pacman_installed_packages:
   - zathura-pdf-mupdf
   - zsh
 pacman_services:
-  - docker
   - bluetooth
-
-system_user: sjoerd
-system_groups: docker,users,wheel
+  - docker
 
 work_github_repositories: !vault |
   $ANSIBLE_VAULT;1.1;AES256

@@ -8,5 +8,5 @@
       vars:
         neovim_bootstrap_result: /root/.local/share/nvim/lazy
         neovim_mason_cmd: >
-          nvim --headless "+MasonInstallAll" +quitall
+          nvim --headless "+Lazy! load mason" "+MasonInstallAll" +quitall
         neovim_mason_result: /root/.local/share/nvim/mason

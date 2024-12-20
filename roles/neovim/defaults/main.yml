@@ -4,5 +4,5 @@ neovim_bootstrap_cmd: >
 neovim_bootstrap_result: "{{ ansible_env.HOME }}/.local/share/nvim/lazy"
 
 neovim_mason_cmd: >
-  nvim --headless "+MasonInstall shellcheck" +quitall
+  nvim --headless "+Lazy! load mason" "+MasonInstallAll" +quitall
 neovim_mason_result: "{{ ansible_env.HOME }}/.local/share/nvim/mason"

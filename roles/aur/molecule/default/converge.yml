@@ -6,8 +6,9 @@
   roles:
     - role: aur
       vars:
+        aur_cache: /var/cache/yay
         aur_installed_packages:
           - touchegg
         aur_services:
           - touchegg
-        aur_cache: /var/cache/yay
+        aur_user: user

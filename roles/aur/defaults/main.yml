@@ -3,5 +3,5 @@ aur_installed_packages: []
 
 aur_services: []
 
-aur_user: aur_builder
+aur_user: "{{ ansible_user }}"
 aur_cache: "{{ ansible_env.HOME }}/.cache/yay"

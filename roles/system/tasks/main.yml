@@ -34,14 +34,11 @@
   community.general.pacman:
     name: zsh
     state: present
-  when: |
-    system_user is defined and system_user | length > 0
 
 - name: System user.
   ansible.builtin.user:
     name: "{{ system_user }}"
     shell: /usr/bin/zsh
-    groups: "{{ system_groups }}"
+    groups: users,wheel
+    append: true
     state: present
-  when: |
-    system_user is defined and system_user | length > 0

@@ -4,5 +4,4 @@ system_city: Amsterdam
 system_locale: en_US
 system_hostname: archey
 
-system_user: ""
-system_groups: users
+system_user: "{{ ansible_user }}"
