@@ -1,9 +1,10 @@
 # TODO
 
 **Testing:**
-- [ ] Full integration test with Vagrant
+- [/] Full integration test with Vagrant
 - [ ] Write documentation
 - [ ] Check why enabling services takes so long
+- [ ] Clearing pacman cache is not truly idempotent. Later roles are installing software, so that cache does not get cleared
 
 **Secrets:**
 - [x] Maven configuration

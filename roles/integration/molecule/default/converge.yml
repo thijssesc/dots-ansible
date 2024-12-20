@@ -1,0 +1,57 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+
+  vars:
+    ansible_user: user
+
+  roles:
+    - role: system
+      become: true
+
+    - role: pacman
+      vars:
+        pacman_installed_packages:
+          - nginx
+        pacman_services: []
+          # - nginx
+
+    - role: aur
+      vars:
+        aur_cache: /var/cache/yay
+        aur_installed_packages:
+          - touchegg
+        aur_services: []
+          # - touchegg
+
+    - role: neovim  # Run neovim before dots
+      vars:
+        neovim_bootstrap_result: /home/user/.local/share/nvim/lazy
+        neovim_mason_cmd: >
+          nvim --headless "+Lazy! load mason" "+MasonInstall shellcheck" +quitall
+        neovim_mason_result: /home/user/.local/share/nvim/mason
+
+    - role: dots
+      vars:
+        dots_git_dest: /home/user
+
+    - role: dash
+
+    - role: firefox
+      vars:
+        firefox_config_path: /home/user/.mozilla/firefox
+        firefox_simplefox_git_dest: /home/user/SimpleFox
+
+    - role: suckless
+      vars:
+        suckless_git_dest: /home/user/suckless
+        suckless_installed_tools:
+          - dmenu
+
+    # - role: work
+    #   vars:
+    #     work_ssh_keys:
+    #       - name: personal
+    #         host: github.com
+    #         user: "{{ ansible_user }}"

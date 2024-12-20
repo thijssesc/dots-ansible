@@ -1,0 +1,46 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  pre_tasks:
+    - name: Setup test user.
+      ansible.builtin.user:
+        name: user
+        password: ruse
+        create_home: true
+        state: present
+
+    - name: Allow test user to run any command without a password.
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/sudoers.d/99-test-user"
+        line: "user ALL=(ALL) NOPASSWD: ALL"
+        create: true
+        validate: "visudo -cf %s"
+        mode: "0750"
+
+    - name: Update pacman cache.
+      community.general.pacman:
+        update_cache: true
+
+    - name: Install harfbuzz to prevent dependency cycle.
+      community.general.pacman:
+        name: harfbuzz
+        state: present
+
+    - name: Ensure neovim config folder exists.
+      ansible.builtin.file:
+        path: /home/user/.config/nvim
+        state: directory
+        mode: "0755"
+        group: user
+        owner: user
+
+    - name: Copy test nvim config.
+      ansible.builtin.copy:
+        src: files/init.lua
+        dest: /home/user/.config/nvim/init.lua
+        mode: "0644"
+        group: user
+        owner: user

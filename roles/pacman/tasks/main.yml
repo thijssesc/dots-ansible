@@ -93,6 +93,7 @@
     file_type: file
   register: pacman_cache_files
   changed_when: pacman_cache_files.files | length > 0
+  tags: [molecule-idempotence-notest]  # TODO: Turn this into a handler so other roles can use it and be idempotent
 
 - name: Clear pacman cache.
   become: true
@@ -100,3 +101,4 @@
     cmd: yes | pacman -Scc  # noqa risky-shell-pipe
   when: pacman_cache_files.files | length > 0
   changed_when: pacman_cache_files.files | length > 0
+  tags: [molecule-idempotence-notest]  # TODO: Turn this into a handler so other roles can use it and be idempotent
