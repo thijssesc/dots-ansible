@@ -1,0 +1,14 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Update pacman cache.
+      community.general.pacman:
+        update_cache: true
+
+    - name: Install harfbuzz to prevent dependency cycle.
+      community.general.pacman:
+        name: harfbuzz
+        state: present
