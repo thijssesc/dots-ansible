@@ -34,9 +34,8 @@ jobs:
 
   molecule:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    needs: lint
     strategy:
-      fail-fast: false
       matrix:
         role:
           - aur
