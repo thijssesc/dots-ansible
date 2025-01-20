@@ -80,7 +80,7 @@
       loop: "{{ found_config.files | map(attribute='path') | sort }}"
 
 - name: Enable shortcut commands.
-  ansible.builtin.shell:
+  ansible.builtin.command:
     chdir: "{{ dots_git_dest }}/.local/scripts"
     cmd: "./shc"
   environment:
@@ -88,7 +88,7 @@
   changed_when: false
 
 - name: Enable ssh-agent daemon.
-  ansible.builtin.shell:
+  ansible.builtin.command:
     chdir: "{{ dots_git_dest }}/.config/systemd/user"
     cmd: "{{ dots_ssh_agent_cmd }}"
   changed_when: false

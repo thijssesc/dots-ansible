@@ -26,11 +26,13 @@
   changed_when: false
 
 - name: Add SSH private key to the agent.
-  ansible.builtin.shell: |
-    printf '{{ work_ssh_passphrase }}' | ssh-add ~/.ssh/{{ item | basename | replace('.pub', '') }}
+  ansible.builtin.shell:
+    # noqa risky-shell-pipe
+    cmd: printf '{{ work_ssh_passphrase }}' | ssh-add ~/.ssh/{{ item | basename | replace('.pub', '') }}
   environment:
     SSH_AUTH_SOCK: "{{ ssh_agent.stdout }}"
   with_fileglob: "{{ work_github_fileglob }}"
+  changed_when: false
   no_log: "{{ work_github_logging_disabled }}"
 
 - name: Clone GitHub repositories.

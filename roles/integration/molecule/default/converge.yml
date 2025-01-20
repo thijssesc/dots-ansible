@@ -15,7 +15,7 @@
         pacman_installed_packages:
           - nginx
         pacman_services: []
-          - nginx
+          # - nginx
 
     - role: aur
       vars:
@@ -23,7 +23,7 @@
         aur_installed_packages:
           - touchegg
         aur_services: []
-          - touchegg
+          # - touchegg
 
     - role: neovim  # Run neovim before dots
       vars:
