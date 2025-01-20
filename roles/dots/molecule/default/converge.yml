@@ -7,3 +7,4 @@
     - role: dots
       vars:
         dots_git_dest: /root
+        dots_ssh_agent_cmd: "systemctl enable --now ./ssh-agent.service"

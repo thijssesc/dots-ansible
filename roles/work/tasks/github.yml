@@ -1,4 +1,10 @@
 ---
+- name: Install git.
+  become: true
+  community.general.pacman:
+    name: git
+    state: present
+
 - name: Ensure the destination folders exists.
   ansible.builtin.file:
     path: "{{ item.dest | dirname }}"
@@ -6,9 +12,32 @@
     recurse: true
   loop: "{{ work_github_repositories }}"
 
+- name: Create known_hosts file.
+  ansible.builtin.known_hosts:
+    name: github.com
+    key: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
+    state: present
+
+- name: Start the SSH agent.
+  ansible.builtin.shell: |
+    eval $(ssh-agent -s) > /dev/null
+    printf "$SSH_AUTH_SOCK"
+  register: ssh_agent
+  changed_when: false
+
+- name: Add SSH private key to the agent.
+  ansible.builtin.shell: |
+    printf '{{ work_ssh_passphrase }}' | ssh-add ~/.ssh/{{ item | basename | replace('.pub', '') }}
+  environment:
+    SSH_AUTH_SOCK: "{{ ssh_agent.stdout }}"
+  with_fileglob: "{{ work_github_fileglob }}"
+  no_log: "{{ work_github_logging_disabled }}"
+
 - name: Clone GitHub repositories.
   ansible.builtin.git:
     dest: "{{ item.dest }}"
     repo: "{{ item.repo }}"
     version: "{{ item.version }}"
   loop: "{{ work_github_repositories }}"
+  environment:
+    SSH_AUTH_SOCK: "{{ ssh_agent.stdout }}"

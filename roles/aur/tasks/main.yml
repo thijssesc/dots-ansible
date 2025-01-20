@@ -6,14 +6,13 @@
     create_home: true
     group: wheel
 
-- name: Allow the aur user to run 'sudo pacman' without a password.
-  become: true
+- name: Allow the aur user to 'sudo' without a password.
   ansible.builtin.lineinfile:
-    path: "/etc/sudoers.d/11-aur-{{ aur_user }}"
-    line: "%wheel ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-    create: true
+    dest: "/etc/sudoers"
+    regexp: "^# %wheel ALL=\\(ALL:ALL\\) NOPASSWD: ALL"
+    line: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+    state: present
     validate: "visudo -cf %s"
-    mode: "0750"
 
 - name: Install base-devel.
   become: true

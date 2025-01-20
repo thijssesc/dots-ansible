@@ -58,6 +58,7 @@
     insertafter: "^#UseSyslog"
     line: "ILoveCandy"
     state: present
+    # TODO: enable color option
 
 - name: Ensure cache is updated.
   ansible.builtin.meta: flush_handlers
@@ -78,6 +79,14 @@
     state: present
   when: |
     "docker" in pacman_installed_packages
+
+- name: Add 'nouveau' kernel module.
+  become: true
+  community.general.modprobe:
+    name: nouveau
+    state: present
+  when: |
+    "xf86-video-nouveau" in pacman_installed_packages
 
 - name: Enable services.
   become: true

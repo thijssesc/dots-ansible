@@ -6,8 +6,11 @@
   roles:
     - role: work
       vars:
-        work_ssh_keys:
-          - name: personal
-            host: github.com
-            user: root
-        work_ssh_user: root
+        work_github_logging_disabled: false
+        work_github_fileglob: "molecule/default/files/ssh/id_*.pub"
+        work_github_repositories:
+          - dest: ~/Software/dots-ansible
+            repo: "https://github.com/thijssesc/dots-ansible"
+            version: master
+        work_ssh_fileglob: "molecule/default/files/ssh/id_*"
+        work_ssh_passphrase: Test

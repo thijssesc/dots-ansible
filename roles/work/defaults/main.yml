@@ -1,5 +1,7 @@
 ---
+work_github_fileglob: "files/ssh/id_*.pub"
+work_github_logging_disabled: true
 work_github_repositories: []
 
-work_ssh_keys: []
-work_ssh_user: "{{ ansible_user }}"
+work_ssh_fileglob: "files/ssh/id_*"
+work_ssh_passphrase: ''

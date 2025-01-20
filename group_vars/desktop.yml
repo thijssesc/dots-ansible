@@ -16,6 +16,7 @@ pacman_installed_packages:
   - alsa-utils
   - base
   - base-devel
+  - bluez
   - bluez-utils
   - checkbashisms
   - dash
@@ -26,30 +27,33 @@ pacman_installed_packages:
   - feh
   - firefox-developer-edition
   - git
+  - gnome-keyring
   - grub
   - gtk-engine-murrine
   - helm
   - jdk17-openjdk
   - jdk21-openjdk
   - kubectl
+  - less
   - linux
   - linux-firmware
   - linux-headers
   - mediainfo
-  - minikube
-  - mpv
   - nnn
+  - noto-fonts
   - openssh
   - otf-font-awesome
   - pass
-  - pulseaudio-alsa
-  - pulseaudio-bluetooth
+  - pipewire
+  - pipewire-alsa
+  - pipewire-jack
+  - pipewire-pulseaudio
+  - polkit
   - ripgrep
   - scrot
   - sxhkd
   - tmux
-  - ttf-roboto
-  - ttf-roboto-mono
+  - ttf-roboto-mono-nerd
   - unclutter
   - xautolock
   - xclip

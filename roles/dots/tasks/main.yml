@@ -53,3 +53,42 @@
     src: "{{ dots_git_dest }}/.profile"
     dest: "{{ dots_git_dest }}/.zprofile"
     state: link
+
+- name: X11 configuration.
+  block:
+    - name: Ensure xorg.config.d folder exists.
+      become: true
+      ansible.builtin.file:
+        path: /etc/X11/xorg.conf.d
+        state: directory
+        mode: "0755"
+        group: root
+        owner: root
+
+    - name: Find X11 configuration files.
+      ansible.builtin.find:
+        paths: "{{ dots_git_dest }}/.config/X11"
+        pattern: "*.conf"
+      register: found_config
+
+    - name: Create xorg configuration symlinks.
+      become: true
+      ansible.builtin.file:
+        src: "{{ dots_git_dest }}/.config/X11/{{ item | basename }}"
+        dest: "/etc/X11/xorg.conf.d/{{ item | basename }}"
+        state: link
+      loop: "{{ found_config.files | map(attribute='path') | sort }}"
+
+- name: Enable shortcut commands.
+  ansible.builtin.shell:
+    chdir: "{{ dots_git_dest }}/.local/scripts"
+    cmd: "./shc"
+  environment:
+    XDG_CONFIG_HOME: "{{ dots_git_dest }}/.config"
+  changed_when: false
+
+- name: Enable ssh-agent daemon.
+  ansible.builtin.shell:
+    chdir: "{{ dots_git_dest }}/.config/systemd/user"
+    cmd: "{{ dots_ssh_agent_cmd }}"
+  changed_when: false

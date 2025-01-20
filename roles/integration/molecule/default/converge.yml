@@ -15,7 +15,7 @@
         pacman_installed_packages:
           - nginx
         pacman_services: []
-          # - nginx
+          - nginx
 
     - role: aur
       vars:
@@ -23,7 +23,7 @@
         aur_installed_packages:
           - touchegg
         aur_services: []
-          # - touchegg
+          - touchegg
 
     - role: neovim  # Run neovim before dots
       vars:
@@ -49,9 +49,13 @@
         suckless_installed_tools:
           - dmenu
 
-    # - role: work
-    #   vars:
-    #     work_ssh_keys:
-    #       - name: personal
-    #         host: github.com
-    #         user: "{{ ansible_user }}"
+    - role: work
+      vars:
+        work_github_logging_disabled: false
+        work_github_fileglob: "molecule/default/files/ssh/id_*.pub"
+        work_github_repositories:
+          - dest: ~/Software/dots-ansible
+            repo: "https://github.com/thijssesc/dots-ansible"
+            version: master
+        work_ssh_fileglob: "molecule/default/files/ssh/id_*"
+        work_ssh_passphrase: Test
