@@ -7,6 +7,7 @@
     group: wheel
 
 - name: Allow the aur user to 'sudo' without a password.
+  become: true
   ansible.builtin.lineinfile:
     dest: "/etc/sudoers"
     regexp: "^# %wheel ALL=\\(ALL:ALL\\) NOPASSWD: ALL"
