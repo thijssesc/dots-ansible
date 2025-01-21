@@ -21,7 +21,23 @@
     cmd: "{{ neovim_bootstrap_cmd }}"
     creates: "{{ neovim_bootstrap_result }}"
 
-- name: Install Mason plugins.
-  ansible.builtin.command:
-    cmd: "{{ neovim_mason_cmd }}"
-    creates: "{{ neovim_mason_result }}"
+- name: Run Mason.
+  block:
+    - name: Check if Mason has been run.
+      ansible.builtin.stat:
+        path: "{{ neovim_mason_result }}"
+      register: neovim_mason_directory
+
+    - name: Install nodejs and npm.
+      community.general.pacman:
+        name:
+          - nodejs
+          - npm
+        state: present
+      when: not neovim_mason_directory.stat.exists
+
+    - name: Install Mason plugins.
+      ansible.builtin.command:
+        cmd: "{{ neovim_mason_cmd }}"
+        creates: "{{ neovim_mason_result }}"
+      notify: Uninstall nodejs and npm.

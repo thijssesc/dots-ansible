@@ -38,6 +38,7 @@
     state: present
     use: yay
   when: aur_installed_packages | length > 0
+  notify: Clear yay cache.
 
 - name: Enable services.
   become: true
@@ -46,10 +47,3 @@
     state: started
     name: "{{ item }}"
   loop: "{{ aur_services }}"
-
-- name: Clear yay cache.
-  ansible.builtin.shell:
-    cmd: yes | yay -Sc  # noqa risky-shell-pipe
-  register: yay_cache_result
-  failed_when: yay_cache_result.rc > 1
-  changed_when: false

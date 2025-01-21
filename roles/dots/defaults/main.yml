@@ -1,4 +1,3 @@
 ---
 dots_git_dest: "{{ ansible_env.HOME }}"
 dots_git_repo: https://github.com/thijssesc/dots.git
-dots_ssh_agent_cmd: "systemctl enable --user --now ./ssh-agent.service"

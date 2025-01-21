@@ -12,3 +12,8 @@
   become: true
   community.general.pacman:
     update_cache: true
+
+- name: Clear pacman cache.
+  become: true
+  ansible.builtin.shell:
+    cmd: yes | pacman -Scc  # noqa risky-shell-pipe

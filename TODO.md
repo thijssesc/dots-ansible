@@ -4,15 +4,14 @@
 - [/] Full integration test with Vagrant
 - [ ] Write documentation
 - [ ] Check why enabling services takes so long
-- [ ] Clearing pacman cache is not truly idempotent. Later roles are installing software, so that cache does not get cleared
+- [x] Clearing pacman cache is not truly idempotent
 
 **Secrets:**
 - [x] Maven configuration
 - [x] Include `~/.ssh/config`
-- [/] SSH private keys
-- [-] Clone GitHub repositories
+- [x] SSH private keys
+- [x] Clone GitHub repositories
 - [x] The secret script
-- [ ] Login to Slack
 
 **Applications:**
 - [ ] Firefox: Settings
@@ -24,6 +23,7 @@
 - [ ] Chrome: Enable primary profile
 - [ ] Chrome: Configure toolbar correctly
 - [ ] Chrome: Login to sync settings
+- [ ] Login: Slack
 - [ ] IntelliJ: Settings
 - [ ] WiFi: Settings
 - [ ] nvm: Settings

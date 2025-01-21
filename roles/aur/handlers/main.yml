@@ -3,3 +3,10 @@
   become: true
   community.general.pacman:
     update_cache: true
+
+- name: Clear yay cache.
+  ansible.builtin.shell:
+    cmd: yes | yay -Sc  # noqa risky-shell-pipe
+  register: yay_cache_result
+  failed_when: yay_cache_result.rc > 1
+  changed_when: false

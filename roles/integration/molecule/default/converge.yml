@@ -35,7 +35,6 @@
     - role: dots
       vars:
         dots_git_dest: /home/user
-        dots_ssh_agent_cmd: "systemctl enable --now ./ssh-agent.service"
 
     - role: dash
 

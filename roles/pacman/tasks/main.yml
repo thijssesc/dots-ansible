@@ -50,7 +50,7 @@
         line: "Include = /etc/pacman.d/mirrorlist"
         state: present
 
-- name: Enable ilovecandy setting.
+- name: Enable 'ILoveCandy' setting.
   become: true
   ansible.builtin.lineinfile:
     dest: /etc/pacman.conf
@@ -58,7 +58,14 @@
     insertafter: "^#UseSyslog"
     line: "ILoveCandy"
     state: present
-    # TODO: enable color option
+
+- name: Enable 'Color' setting.
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: "^#Color"
+    line: "Color"
+    state: present
 
 - name: Ensure cache is updated.
   ansible.builtin.meta: flush_handlers
@@ -69,6 +76,7 @@
     name: "{{ pacman_installed_packages }}"
     state: present
   when: pacman_installed_packages | length > 0
+  notify: Clear pacman cache.
 
 - name: Add user to docker group.
   become: true
@@ -95,19 +103,3 @@
     state: started
     name: "{{ item }}"
   loop: "{{ pacman_services }}"
-
-- name: Check if pacman cache is empty.
-  ansible.builtin.find:
-    paths: /var/cache/pacman/pkg
-    file_type: file
-  register: pacman_cache_files
-  changed_when: pacman_cache_files.files | length > 0
-  tags: [molecule-idempotence-notest]  # TODO: Turn this into a handler so other roles can use it and be idempotent
-
-- name: Clear pacman cache.
-  become: true
-  ansible.builtin.shell:
-    cmd: yes | pacman -Scc  # noqa risky-shell-pipe
-  when: pacman_cache_files.files | length > 0
-  changed_when: pacman_cache_files.files | length > 0
-  tags: [molecule-idempotence-notest]  # TODO: Turn this into a handler so other roles can use it and be idempotent

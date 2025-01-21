@@ -1,0 +1,8 @@
+---
+- name: Uninstall nodejs and npm.
+  community.general.pacman:
+    name:
+      - nodejs
+      - npm
+    state: absent
+    extra_args: --recursive
