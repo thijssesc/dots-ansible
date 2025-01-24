@@ -1,5 +1,6 @@
 ---
 - name: Uninstall nodejs and npm.
+  become: true
   community.general.pacman:
     name:
       - nodejs

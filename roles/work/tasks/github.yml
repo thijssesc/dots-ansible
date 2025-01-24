@@ -10,6 +10,9 @@
     path: "{{ item.dest | dirname }}"
     state: directory
     recurse: true
+    mode: "0755"
+    group: "{{ work_user }}"
+    owner: "{{ work_user }}"
   loop: "{{ work_github_repositories }}"
 
 - name: Create known_hosts file.
@@ -17,6 +20,7 @@
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
     state: present
+  changed_when: false
 
 - name: Start the SSH agent.
   ansible.builtin.shell: |

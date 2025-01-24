@@ -5,3 +5,5 @@ work_github_repositories: []
 
 work_ssh_fileglob: "files/ssh/id_*"
 work_ssh_passphrase: ''
+
+work_user: "{{ ansible_user }}"

@@ -29,6 +29,7 @@
       register: neovim_mason_directory
 
     - name: Install nodejs and npm.
+      become: true
       community.general.pacman:
         name:
           - nodejs

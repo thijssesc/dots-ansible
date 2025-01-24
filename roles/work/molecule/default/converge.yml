@@ -14,3 +14,4 @@
             version: master
         work_ssh_fileglob: "molecule/default/files/ssh/id_*"
         work_ssh_passphrase: Test
+        work_user: root

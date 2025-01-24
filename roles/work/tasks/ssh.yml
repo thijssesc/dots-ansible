@@ -10,16 +10,22 @@
     path: ~/.ssh
     state: directory
     mode: "0700"
+    group: "{{ work_user }}"
+    owner: "{{ work_user }}"
 
 - name: Copy SSH keys.
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.ssh/
     mode: "0600"
+    group: "{{ work_user }}"
+    owner: "{{ work_user }}"
   with_fileglob: "{{ work_ssh_fileglob }}"
 
 - name: Copy SSH config.
   ansible.builtin.copy:
     src: files/ssh/config
     dest: ~/.ssh/
-    mode: "0600"
+    mode: "0644"
+    group: "{{ work_user }}"
+    owner: "{{ work_user }}"
