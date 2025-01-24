@@ -17,3 +17,4 @@
   become: true
   ansible.builtin.shell:
     cmd: yes | pacman -Scc  # noqa risky-shell-pipe
+  changed_when: false
