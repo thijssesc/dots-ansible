@@ -9,7 +9,6 @@
   ansible.builtin.file:
     path: "{{ item.dest | dirname }}"
     state: directory
-    recurse: true
     mode: "0755"
     group: "{{ work_user }}"
     owner: "{{ work_user }}"
