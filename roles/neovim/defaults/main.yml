@@ -1,8 +1,12 @@
 ---
 neovim_bootstrap_cmd: >
-  nvim --headless "+Lazy! sync" +quitall
+  nvim --headless "+Lazy! sync" "+quitall"
 neovim_bootstrap_result: "{{ ansible_env.HOME }}/.local/share/nvim/lazy"
 
 neovim_mason_cmd: >
-  nvim --headless "+Lazy! load mason" "+MasonInstallAll" +quitall
+  nvim --headless "+Lazy! load mason" "+MasonInstallAll" "+quitall"
+neovim_mason_dependencies:
+  - go
+  - nodejs
+  - npm
 neovim_mason_result: "{{ ansible_env.HOME }}/.local/share/nvim/mason"

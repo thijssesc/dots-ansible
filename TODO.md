@@ -14,17 +14,10 @@
 - [x] The secret script
 
 **Applications:**
-- [ ] Firefox: Settings
-- [ ] Firefox: Enable primary profile
-- [ ] Firefox: Remove pre-installed profile
-- [ ] Firefox: Configure toolbar correctly
-- [ ] Firefox: Login to sync settings
-- [ ] Chrome: Settings
-- [ ] Chrome: Enable primary profile
-- [ ] Chrome: Configure toolbar correctly
-- [ ] Chrome: Login to sync settings
-- [ ] Login: Slack
-- [ ] IntelliJ: Settings
+- [ ] Firefox: Login & Settings
+- [ ] Chrome: Login & Settings
+- [ ] Slack: Login & Settings
+- [ ] IntelliJ: Login & Settings
 - [ ] WiFi: Settings
 - [ ] nvm: Settings
 - [ ] Postman: Settings

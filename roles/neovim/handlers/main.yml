@@ -2,8 +2,6 @@
 - name: Uninstall nodejs and npm.
   become: true
   community.general.pacman:
-    name:
-      - nodejs
-      - npm
+    name: "{{ neovim_mason_dependencies }}"
     state: absent
     extra_args: --recursive
